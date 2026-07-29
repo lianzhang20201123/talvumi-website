@@ -1,0 +1,5 @@
+node_modules/
+*.log
+desktop.png
+mobile.png
+site-archive.tar.gz
