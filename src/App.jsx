@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { insights } from "../content/insights.mjs";
 
 const products = [
   { id: "cat-ocean-fish", type: "CAT · ADULT", name: "Ocean Fish Recipe", descriptor: "with freeze-dried pieces", sizes: "1.5 kg · 10 kg", status: "Commercial specification pending", tone: "aubergine" },
@@ -53,7 +54,12 @@ function ApplicationForm() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = await response.json();
+      let result = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
       if (!response.ok) throw new Error(result.message || "The partner intake is not connected yet.");
       event.currentTarget.reset();
       setState({ status: "success", message: `Application received. Reference: ${result.reference}` });
@@ -147,6 +153,11 @@ export function App() {
 
       <section className="process section"><p className="eyebrow">HOW PARTNERSHIP STARTS</p><div className="process-grid">{[["01","Apply","Tell us about your company, territory and channels."],["02","Review","We assess channel capability and regulatory readiness."],["03","Evaluate","Qualified partners discuss products, samples and market fit."],["04","Plan","Both sides agree a practical market and launch plan."],["05","Launch","Commercial terms, registration and supply are confirmed in writing."]].map(([number,title,copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
 
+      <section id="insights" className="insights section">
+        <div className="insights-heading"><p className="eyebrow">MARKET INSIGHTS · UPDATED DAILY</p><h2>Useful signals.<br /><em>Commercial intent.</em></h2><p>Practical guidance for pet food importers, distributors and retail partners. New analysis is published as market evidence is verified.</p><a className="text-link" href="/insights/">View all insights <span>→</span></a></div>
+        <div className="insight-grid">{insights.slice(0, 3).map((article, index) => <article className="insight-card" key={article.slug}><div><span>0{index + 1}</span><time dateTime={article.date}>{article.date}</time></div><p>{article.category}</p><h3><a href={`/insights/${article.slug}/`}>{article.title}</a></h3><p>{article.excerpt}</p><a href={`/insights/${article.slug}/`}>Read the analysis <span>→</span></a></article>)}</div>
+      </section>
+
       <section id="faq" className="faq section">
         <div className="faq-heading"><p className="eyebrow">DISTRIBUTOR FAQ</p><h2>Facts before<br /><em>the first order.</em></h2><p>Direct answers for pet food importers, distributors and retail partners evaluating TALVUMI.</p></div>
         <div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>
@@ -159,7 +170,7 @@ export function App() {
 
       <section className="retail section"><div><p className="eyebrow">RETAIL AVAILABILITY</p><h2>Retail opens market by market.</h2></div><p>Buy Now will appear only where a product is legally registered, locally stocked and supported by approved pricing, payment, delivery, returns and customer service.</p><button className="button button-disabled" disabled>Retail launch pending</button></section>
 
-      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="#standard">Our standard</a><a href="#range">Products</a><a href="#partners">Partners</a><a href="#faq">FAQ</a><a href="#trace">Trace</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
+      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="#standard">Our standard</a><a href="#range">Products</a><a href="#partners">Partners</a><a href="/insights/">Insights</a><a href="#faq">FAQ</a><a href="#trace">Trace</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
     </main>
   );
 }

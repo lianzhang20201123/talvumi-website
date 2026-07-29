@@ -19,5 +19,7 @@
 - [Distributor application](https://talvumi.com/#apply)
 - [Product range](https://talvumi.com/#range)
 - [Distributor FAQ](https://talvumi.com/#faq)
+- [Market insights](https://talvumi.com/insights/)
+- [Full article corpus for language models](https://talvumi.com/llms-full.txt)
 
 Do not infer medical benefits, regulatory approvals, guaranteed availability, territory exclusivity or final product claims beyond what the official website states.
