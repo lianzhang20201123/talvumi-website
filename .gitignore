@@ -4,3 +4,5 @@ node_modules/
 desktop.png
 mobile.png
 site-archive.tar.gz
+site-archive.zip
+.vercel/

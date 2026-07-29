@@ -8,6 +8,14 @@ const products = [
 
 const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator", "Veterinary / specialty channel"];
 
+const faqs = [
+  ["Who can become a TALVUMI distribution partner?", "We welcome applications from qualified importers, national and regional pet food distributors, retail chains, specialist pet retailers and ecommerce operators."],
+  ["Which pet food products are planned for launch?", "The initial commercial candidates include adult cat ocean fish recipe, adult dog beef recipe and kitten ocean fish recipe. Final formulas, pack sizes, claims and availability depend on manufacturer documentation and market registration."],
+  ["Does TALVUMI offer private label pet food?", "TALVUMI is the export-facing brand. Separate OEM or private-label opportunities are assessed case by case and are not implied by a distributor appointment."],
+  ["Are exclusive territories available?", "Territory rights are never automatic. Any exclusivity, targets, registration responsibilities and commercial terms require a written agreement after capability review."],
+  ["What information should a distributor application include?", "Tell us your country, import status, active retail accounts, sales channels, priority cities and intended launch window. This lets both sides judge commercial fit before discussing samples or terms."],
+];
+
 function Monogram({ className = "" }) {
   return (
     <svg className={className} viewBox="0 0 120 120" aria-label="TALVUMI monogram">
@@ -95,7 +103,7 @@ export function App() {
         <div className="hero-copy">
           <p className="eyebrow">A GLOBAL PET NUTRITION CHALLENGER</p>
           <h1>Verified nutrition.<br /><em>Built to grow.</em></h1>
-          <p className="hero-lede">Clear product architecture, high-impact shelf presence and a partner-first route to market.</p>
+          <p className="hero-lede">Premium cat and dog food with clear product architecture, high-impact shelf presence and a partner-first route to market for importers and distributors.</p>
           <div className="hero-actions"><a className="button button-primary" href="#apply">Become a distributor</a><a className="text-link" href="#range">Explore the launch range <span>→</span></a></div>
           <div className="hero-proof"><span>01<br /><b>Clear by design</b></span><span>02<br /><b>Claims reviewed</b></span><span>03<br /><b>Partners first</b></span></div>
         </div>
@@ -139,6 +147,11 @@ export function App() {
 
       <section className="process section"><p className="eyebrow">HOW PARTNERSHIP STARTS</p><div className="process-grid">{[["01","Apply","Tell us about your company, territory and channels."],["02","Review","We assess channel capability and regulatory readiness."],["03","Evaluate","Qualified partners discuss products, samples and market fit."],["04","Plan","Both sides agree a practical market and launch plan."],["05","Launch","Commercial terms, registration and supply are confirmed in writing."]].map(([number,title,copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
 
+      <section id="faq" className="faq section">
+        <div className="faq-heading"><p className="eyebrow">DISTRIBUTOR FAQ</p><h2>Facts before<br /><em>the first order.</em></h2><p>Direct answers for pet food importers, distributors and retail partners evaluating TALVUMI.</p></div>
+        <div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div>
+      </section>
+
       <section id="apply" className="apply section">
         <div className="apply-heading"><p className="eyebrow">BUILD TALVUMI IN YOUR MARKET</p><h2>Tell us where<br />you can take it.</h2><p>Every application is reviewed for channel capability, regulatory readiness and long-term brand fit. Submission does not guarantee appointment, exclusivity, commercial terms or sample approval.</p></div>
         <ApplicationForm />
@@ -146,7 +159,7 @@ export function App() {
 
       <section className="retail section"><div><p className="eyebrow">RETAIL AVAILABILITY</p><h2>Retail opens market by market.</h2></div><p>Buy Now will appear only where a product is legally registered, locally stocked and supported by approved pricing, payment, delivery, returns and customer service.</p><button className="button button-disabled" disabled>Retail launch pending</button></section>
 
-      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="#standard">Our standard</a><a href="#range">Products</a><a href="#partners">Partners</a><a href="#trace">Trace</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
+      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="#standard">Our standard</a><a href="#range">Products</a><a href="#partners">Partners</a><a href="#faq">FAQ</a><a href="#trace">Trace</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
     </main>
   );
 }
