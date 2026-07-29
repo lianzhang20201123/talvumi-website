@@ -17,3 +17,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Never publish unverified nutrition values, certifications, formula percentages, prices, inventory, retailer availability, medical claims, or complete-and-balanced claims.
 - Do not show Buy Now until market-specific legal, inventory, pricing, payment, shipping, returns, importer, and customer-support gates are complete.
 - Independent single-ingredient freeze-dried treats remain a future concept, not a currently verified launch SKU.
+- The website must identify as a pet-food brand at first glance through original cat, dog and visible-food imagery; retain the high-impact sculptural brand system and distributor-first tone.
+- Never publish legacy concept images that show unverified "BATCH VERIFIED" language, incorrect recipes or pack sizes, or independent freeze-dried treats as current launch products.

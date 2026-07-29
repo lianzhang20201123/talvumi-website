@@ -114,8 +114,18 @@ export function App() {
           <div className="hero-proof"><span>01<br /><b>Clear by design</b></span><span>02<br /><b>Claims reviewed</b></span><span>03<br /><b>Partners first</b></span></div>
         </div>
         <div className="hero-visual">
-          <div className="hero-packs"><PackConcept product={products[0]} compact /><PackConcept product={products[1]} compact /></div>
-          <p>Packaging system preview. Formula, legal copy and final print artwork require written approval.</p>
+          <img
+            src="/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp"
+            width="1600"
+            height="1067"
+            alt="Cat and dog beside bowls of dry pet food in the TALVUMI brand studio"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <div className="hero-visual-caption">
+            <span>CAT + DOG NUTRITION</span>
+            <p>Brand campaign visual. Product formula, claims and final artwork remain subject to written approval.</p>
+          </div>
         </div>
       </section>
 
@@ -125,6 +135,30 @@ export function App() {
         <div className="section-heading"><p className="eyebrow">OUR STANDARD</p><h2>No mystery<br />in the bowl.</h2></div>
         <div className="standard-content"><p className="lead">Pet nutrition should be easier to understand and easier to trust. TALVUMI is building a focused range with disciplined product information and market-ready support.</p>
           <div className="principles"><article><strong>Verified</strong><p>Published claims are reviewed against the product and manufacturing documentation available for that market.</p></article><article><strong>Clear</strong><p>Products are organised by species, life stage, format and primary ingredient—without unnecessary complexity.</p></article><article><strong>Vital</strong><p>Distinctive packaging makes the range easier to find, explain and build at shelf.</p></article></div>
+        </div>
+      </section>
+
+      <section className="food-story section">
+        <div className="food-story-media">
+          <img
+            src="/assets/brand/talvumi-dry-pet-food-texture.webp"
+            width="1400"
+            height="933"
+            alt="Two bowls showing dry cat and dog food with freeze-dried pieces"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>PRODUCT FORMAT VISUAL · FINAL APPEARANCE MAY VARY</span>
+        </div>
+        <div className="food-story-copy">
+          <p className="eyebrow">THE PRODUCT, CLEARLY SEEN</p>
+          <h2>Real food<br /><em>starts with detail.</em></h2>
+          <p>Dry nutrition and freeze-dried pieces are made visible, not hidden behind vague lifestyle language. Final appearance, ingredients and claims will be confirmed product by product for each launch market.</p>
+          <div className="food-story-points">
+            <span><b>01</b> Cat and dog formats</span>
+            <span><b>02</b> Life-stage architecture</span>
+            <span><b>03</b> Market-reviewed information</span>
+          </div>
         </div>
       </section>
 

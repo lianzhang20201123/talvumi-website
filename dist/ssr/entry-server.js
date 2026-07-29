@@ -277,11 +277,21 @@ function App() {
         ] })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "hero-visual", children: [
-        /* @__PURE__ */ jsxs("div", { className: "hero-packs", children: [
-          /* @__PURE__ */ jsx(PackConcept, { product: products[0], compact: true }),
-          /* @__PURE__ */ jsx(PackConcept, { product: products[1], compact: true })
-        ] }),
-        /* @__PURE__ */ jsx("p", { children: "Packaging system preview. Formula, legal copy and final print artwork require written approval." })
+        /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: "/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp",
+            width: "1600",
+            height: "1067",
+            alt: "Cat and dog beside bowls of dry pet food in the TALVUMI brand studio",
+            fetchPriority: "high",
+            decoding: "async"
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "hero-visual-caption", children: [
+          /* @__PURE__ */ jsx("span", { children: "CAT + DOG NUTRITION" }),
+          /* @__PURE__ */ jsx("p", { children: "Brand campaign visual. Product formula, claims and final artwork remain subject to written approval." })
+        ] })
       ] })
     ] }),
     /* @__PURE__ */ jsx("section", { className: "marquee", "aria-label": "Brand principles", children: /* @__PURE__ */ jsxs("div", { children: [
@@ -320,6 +330,45 @@ function App() {
           /* @__PURE__ */ jsxs("article", { children: [
             /* @__PURE__ */ jsx("strong", { children: "Vital" }),
             /* @__PURE__ */ jsx("p", { children: "Distinctive packaging makes the range easier to find, explain and build at shelf." })
+          ] })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxs("section", { className: "food-story section", children: [
+      /* @__PURE__ */ jsxs("div", { className: "food-story-media", children: [
+        /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: "/assets/brand/talvumi-dry-pet-food-texture.webp",
+            width: "1400",
+            height: "933",
+            alt: "Two bowls showing dry cat and dog food with freeze-dried pieces",
+            loading: "lazy",
+            decoding: "async"
+          }
+        ),
+        /* @__PURE__ */ jsx("span", { children: "PRODUCT FORMAT VISUAL · FINAL APPEARANCE MAY VARY" })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "food-story-copy", children: [
+        /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "THE PRODUCT, CLEARLY SEEN" }),
+        /* @__PURE__ */ jsxs("h2", { children: [
+          "Real food",
+          /* @__PURE__ */ jsx("br", {}),
+          /* @__PURE__ */ jsx("em", { children: "starts with detail." })
+        ] }),
+        /* @__PURE__ */ jsx("p", { children: "Dry nutrition and freeze-dried pieces are made visible, not hidden behind vague lifestyle language. Final appearance, ingredients and claims will be confirmed product by product for each launch market." }),
+        /* @__PURE__ */ jsxs("div", { className: "food-story-points", children: [
+          /* @__PURE__ */ jsxs("span", { children: [
+            /* @__PURE__ */ jsx("b", { children: "01" }),
+            " Cat and dog formats"
+          ] }),
+          /* @__PURE__ */ jsxs("span", { children: [
+            /* @__PURE__ */ jsx("b", { children: "02" }),
+            " Life-stage architecture"
+          ] }),
+          /* @__PURE__ */ jsxs("span", { children: [
+            /* @__PURE__ */ jsx("b", { children: "03" }),
+            " Market-reviewed information"
           ] })
         ] })
       ] })
