@@ -216,6 +216,7 @@ h1 em, h2 em { color: var(--coral); font-style: normal; }
 .commerce-card dt { color:rgba(17,17,17,.55); text-transform:uppercase; letter-spacing:.08em; }
 .commerce-card dd { max-width:58%; margin:0; font-weight:800; text-align:right; }
 .commerce-card .button { width:100%; border-color:var(--ink); }
+.product-data-link { display:inline-block; margin:-8px 0 18px; color:var(--cobalt); font-size:10px; font-weight:900; letter-spacing:.1em; text-decoration:none; text-transform:uppercase; }
 
 .shortlist { display:grid; grid-template-columns:1.05fr .95fr; margin-top:76px; color:var(--ivory); background:var(--ink); border:2px solid var(--ink); scroll-margin-top:100px; }
 .shortlist-summary { padding:clamp(26px,4vw,58px); background:linear-gradient(145deg,#170f20,#0b0b0d); }
@@ -242,6 +243,22 @@ h1 em, h2 em { color: var(--coral); font-style: normal; }
 .shortlist-form input:focus, .shortlist-form select:focus, .shortlist-form textarea:focus { border-color:var(--cyan); }
 .shortlist-form .consent { display:flex; align-items:start; text-transform:none; letter-spacing:normal; color:rgba(243,232,210,.58); font-weight:400; line-height:1.45; }
 .shortlist-form .consent input { width:16px; min-height:16px; margin-top:2px; }
+.consent a { color:var(--cyan); }
+.honeypot { position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+
+.readiness { color:var(--ivory); background:linear-gradient(135deg,#0b0b0d 0%,#170f20 58%,#091026 100%); }
+.readiness-heading { display:grid; grid-template-columns:1.1fr .9fr; gap:7vw; align-items:end; }
+.readiness-heading h2 { margin:0; }
+.readiness-heading > p { max-width:650px; color:rgba(243,232,210,.68); font-size:17px; line-height:1.75; }
+.readiness-grid { display:grid; grid-template-columns:repeat(2,1fr); margin-top:64px; border:1px solid var(--line); }
+.readiness-grid article { display:grid; grid-template-columns:auto 1fr; gap:18px; padding:30px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+.readiness-grid article:nth-child(2n) { border-right:0; }
+.readiness-grid article:nth-last-child(-n+2) { border-bottom:0; }
+.readiness-grid article > span { color:var(--acid); font-family:Impact,sans-serif; font-size:34px; }
+.readiness-grid strong { display:block; font-size:19px; text-transform:uppercase; }
+.readiness-grid small { display:block; margin-top:6px; color:var(--cyan); font-size:9px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+.readiness-grid p { grid-column:2; margin:0; color:rgba(243,232,210,.62); font-size:13px; line-height:1.65; }
+.readiness-actions { display:flex; gap:28px; align-items:center; margin-top:34px; }
 
 .packaging { color:var(--ivory); background:var(--cobalt); }
 .packaging-heading { display:grid; grid-template-columns:1.1fr .9fr; column-gap:7vw; align-items:end; margin-bottom:64px; }
@@ -374,6 +391,7 @@ footer small { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var
   .food-story-media img { min-height:560px; }
   .product-grid { grid-template-columns: 1fr 1fr; }
   .commerce-grid, .packaging-grid { grid-template-columns:1fr; }
+  .readiness-heading { grid-template-columns:1fr; gap:26px; }
   .commerce-card { display:grid; grid-template-columns:.9fr 1.1fr; }
   .commerce-image { height:auto; min-height:360px; }
   .shortlist { grid-template-columns:1fr; }
@@ -420,6 +438,10 @@ footer small { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var
   .line-quantity { width:100%; }
   .line-quantity input, .line-quantity select { flex:1; }
   .buyer-toggle { grid-template-columns:1fr; }
+  .readiness-grid { grid-template-columns:1fr; }
+  .readiness-grid article, .readiness-grid article:nth-child(2n), .readiness-grid article:nth-last-child(-n+2) { border-right:0; border-bottom:1px solid var(--line); }
+  .readiness-grid article:last-child { border-bottom:0; }
+  .readiness-actions { align-items:flex-start; flex-direction:column; }
   .packaging-grid article { padding:22px; }
   .packaging-grid h3 { min-height:auto; }
   .insights-heading { grid-template-columns:1fr; gap:20px; }

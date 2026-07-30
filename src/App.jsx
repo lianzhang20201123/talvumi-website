@@ -3,6 +3,8 @@ import { insights } from "../content/insights.mjs";
 import { catalog as products, commerceConfig, getVariant } from "../content/catalog.mjs";
 
 const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator", "Veterinary / specialty channel"];
+const launchWindows = ["Within 3 months", "3–6 months", "6–12 months", "Exploring / not fixed"];
+const volumeBands = ["Samples / evaluation only", "Under 1 pallet", "1–5 pallets", "6–20 pallets", "20+ pallets", "Not yet estimated"];
 
 const faqs = [
   ["Who can become a TALVUMI distribution partner?", "We welcome applications from qualified importers, national and regional pet food distributors, retail chains, specialist pet retailers and ecommerce operators."],
@@ -130,6 +132,7 @@ function ProductShortlist() {
                   <div><dt>Price</dt><dd>Market quote pending</dd></div>
                   <div><dt>Barcode / case pack</dt><dd>Factory confirmation</dd></div>
                 </dl>
+                <a className="product-data-link" href={product.productPath}>View buyer data page →</a>
                 <button className={`button ${isAdded ? "button-disabled" : "button-primary"}`} type="button" disabled={isAdded} onClick={() => addVariant(variant.id)}>{isAdded ? "Added to shortlist" : "Add to product shortlist"}</button>
               </div>
             </article>
@@ -153,18 +156,41 @@ function ProductShortlist() {
 
         <form className="shortlist-form" onSubmit={submit}>
           <div className="buyer-toggle" aria-label="Choose request type"><button className={buyerMode === "trade" ? "active" : ""} type="button" onClick={() => setBuyerMode("trade")}>Wholesale quote</button><button className={buyerMode === "retail" ? "active" : ""} type="button" onClick={() => setBuyerMode("retail")}>Retail early access</button></div>
-          {buyerMode === "trade" && <label>Company name<input name="company" autoComplete="organization" required /></label>}
+          {buyerMode === "trade" && <div className="form-grid"><label>Company name<input name="company" autoComplete="organization" required /></label><label>Contact name<input name="contactName" autoComplete="name" required /></label></div>}
           <div className="form-grid">
             <label>{buyerMode === "trade" ? "Work email" : "Email"}<input name="email" type="email" autoComplete="email" required /></label>
             <label>Country / territory<input name="country" autoComplete="country-name" required /></label>
             {buyerMode === "trade" && <><label>Partner type<select name="partnerType" required defaultValue=""><option value="" disabled>Select one</option>{partnerTypes.map((item) => <option key={item}>{item}</option>)}</select></label><label>Import status<select name="importStatus" required defaultValue=""><option value="" disabled>Select one</option><option>Active licence</option><option>In progress</option><option>Licensed importer partner</option><option>Not yet available</option></select></label></>}
           </div>
-          {buyerMode === "trade" && <><label>Preferred trade basis<select name="incotermPreference" defaultValue=""><option value="">Discuss with TALVUMI</option><option>EXW — named place required</option><option>FOB — named port required</option><option>CIF — named destination port required</option></select></label><label>Launch plan / sample request<textarea name="notes" rows="4" placeholder="Share your target cities, channels, intended launch window and whether samples are required." /></label></>}
-          <label className="consent"><input name="consent" type="checkbox" required /><span>I agree that these details may be used to assess launch interest. This is not a purchase, reservation of inventory or price commitment.</span></label>
+          {buyerMode === "trade" && <><div className="form-grid"><label>Target launch window<select name="launchWindow" required defaultValue=""><option value="" disabled>Select one</option>{launchWindows.map((item) => <option key={item}>{item}</option>)}</select></label><label>Expected opening order<select name="openingOrderBand" required defaultValue=""><option value="" disabled>Select one</option>{volumeBands.map((item) => <option key={item}>{item}</option>)}</select></label><label>Company website<input name="website" type="url" autoComplete="url" placeholder="https://" /></label><label>Phone / WhatsApp<input name="phone" type="tel" autoComplete="tel" /></label></div><label>Preferred trade basis<select name="incotermPreference" defaultValue=""><option value="">Discuss with TALVUMI</option><option>EXW — named place required</option><option>FOB — named port required</option><option>CIF — named destination port required</option></select></label><label>Launch plan / sample request<textarea name="notes" rows="4" placeholder="Share your target cities, channels, intended launch window and whether samples are required." /></label></>}
+          <label className="honeypot" aria-hidden="true">Leave this field empty<input name="companyFax" tabIndex="-1" autoComplete="off" /></label>
+          <label className="consent"><input name="consent" type="checkbox" required /><span>I agree that these details may be used to assess launch interest under the <a href="/privacy/">privacy notice</a>. This is not a purchase, reservation of inventory or price commitment.</span></label>
           <button className="button button-primary" disabled={state.status === "sending" || !lines.length}>{state.status === "sending" ? "Submitting…" : buyerMode === "trade" ? "Request trade review" : "Join retail early access"}</button>
-          {state.message && <p className={`form-message ${state.status}`}>{state.message}</p>}
+          {state.message && <p aria-live="polite" className={`form-message ${state.status}`}>{state.message}</p>}
         </form>
       </div>
+    </section>
+  );
+}
+
+function LaunchReadiness() {
+  const gates = [
+    ["Product identity", "In factory verification", "Legal names, recipe references, life stage and final product documentation."],
+    ["Commercial terms", "Quote by market", "MOQ, tier price, trade basis and lead time are confirmed in writing for each qualified request."],
+    ["Packaging", "Engineering validation", "Final dimensions, barrier, seal window, case pack and transit performance require real-product testing."],
+    ["Market access", "Partner-led review", "Registration, importer responsibility, label language and local claims approval are assessed market by market."],
+  ];
+
+  return (
+    <section className="readiness section" aria-labelledby="readiness-title">
+      <div className="readiness-heading">
+        <div><p className="eyebrow">BUYER DUE-DILIGENCE VIEW</p><h2 id="readiness-title">Know what is ready.<br /><em>Know what comes next.</em></h2></div>
+        <p>TALVUMI does not turn planning data into a sales promise. Qualified partners receive a written status review before samples, registration work or a commercial order is agreed.</p>
+      </div>
+      <div className="readiness-grid">
+        {gates.map(([name, status, detail], index) => <article key={name}><span>0{index + 1}</span><div><strong>{name}</strong><small>{status}</small></div><p>{detail}</p></article>)}
+      </div>
+      <div className="readiness-actions"><a className="button button-primary" href="#preorder">Build an RFQ shortlist</a><a className="text-link" href="/distributors/">Read the distributor process <span>→</span></a></div>
     </section>
   );
 }
@@ -260,16 +286,21 @@ function ApplicationForm() {
     <form className="partner-form" onSubmit={submit}>
       <div className="form-grid">
         <label>Company name<input name="company" autoComplete="organization" required /></label>
+        <label>Contact name<input name="contactName" autoComplete="name" required /></label>
         <label>Country / territory<input name="country" autoComplete="country-name" required /></label>
         <label>Work email<input name="email" type="email" autoComplete="email" required /></label>
         <label>Partner type<select name="partnerType" required defaultValue=""><option value="" disabled>Select one</option>{partnerTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
         <label>Active retail accounts<select name="retailAccounts" required defaultValue=""><option value="" disabled>Select a range</option><option>1–25</option><option>26–100</option><option>101–300</option><option>301+</option></select></label>
         <label>Import licence status<select name="importLicence" required defaultValue=""><option value="" disabled>Select one</option><option>Active</option><option>In progress</option><option>Working with a licensed importer</option><option>Not yet available</option></select></label>
+        <label>Target launch window<select name="launchWindow" required defaultValue=""><option value="" disabled>Select one</option>{launchWindows.map((item) => <option key={item}>{item}</option>)}</select></label>
+        <label>Expected opening order<select name="openingOrderBand" required defaultValue=""><option value="" disabled>Select one</option>{volumeBands.map((item) => <option key={item}>{item}</option>)}</select></label>
+        <label>Company website<input name="website" type="url" autoComplete="url" placeholder="https://" /></label>
       </div>
       <label>Route to market and launch plan<textarea name="launchPlan" rows="4" placeholder="Tell us about your channels, cities and intended launch window." required /></label>
-      <label className="consent"><input name="consent" type="checkbox" required /><span>I confirm that this information is accurate and may be used to assess a potential commercial relationship.</span></label>
+      <label className="honeypot" aria-hidden="true">Leave this field empty<input name="companyFax" tabIndex="-1" autoComplete="off" /></label>
+      <label className="consent"><input name="consent" type="checkbox" required /><span>I confirm that this information is accurate and may be used to assess a potential commercial relationship under the <a href="/privacy/">privacy notice</a>.</span></label>
       <button className="button button-primary" disabled={state.status === "sending"}>{state.status === "sending" ? "Submitting…" : "Apply to partner"}</button>
-      {state.message && <p className={`form-message ${state.status}`}>{state.message}</p>}
+      {state.message && <p aria-live="polite" className={`form-message ${state.status}`}>{state.message}</p>}
     </form>
   );
 }
@@ -360,6 +391,7 @@ export function App() {
       </section>
 
       <ProductShortlist />
+      <LaunchReadiness />
       <PackagingEngineering />
 
       <section id="trace" className="trace section">
@@ -379,7 +411,7 @@ export function App() {
       <section className="process section"><p className="eyebrow">HOW PARTNERSHIP STARTS</p><div className="process-grid">{[["01","Apply","Tell us about your company, territory and channels."],["02","Review","We assess channel capability and regulatory readiness."],["03","Evaluate","Qualified partners discuss products, samples and market fit."],["04","Plan","Both sides agree a practical market and launch plan."],["05","Launch","Commercial terms, registration and supply are confirmed in writing."]].map(([number,title,copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
 
       <section id="insights" className="insights section">
-        <div className="insights-heading"><p className="eyebrow">MARKET INSIGHTS · UPDATED DAILY</p><h2>Useful signals.<br /><em>Commercial intent.</em></h2><p>Practical guidance for pet food importers, distributors and retail partners. New analysis is published as market evidence is verified.</p><a className="text-link" href="/insights/">View all insights <span>→</span></a></div>
+        <div className="insights-heading"><p className="eyebrow">MARKET INSIGHTS · EVIDENCE-REVIEWED</p><h2>Useful signals.<br /><em>Commercial intent.</em></h2><p>Practical guidance for pet food importers, distributors and retail partners. New analysis is published when its evidence and commercial boundaries have been reviewed.</p><a className="text-link" href="/insights/">View all insights <span>→</span></a></div>
         <div className="insight-grid">{insights.slice(0, 3).map((article, index) => <article className="insight-card" key={article.slug}><div><span>0{index + 1}</span><time dateTime={article.date}>{article.date}</time></div><p>{article.category}</p><h3><a href={`/insights/${article.slug}/`}>{article.title}</a></h3><p>{article.excerpt}</p><a href={`/insights/${article.slug}/`}>Read the analysis <span>→</span></a></article>)}</div>
       </section>
 
@@ -395,7 +427,7 @@ export function App() {
 
       <section className="retail section"><div><p className="eyebrow">RETAIL AVAILABILITY</p><h2>Retail opens market by market.</h2></div><p>Buy Now will appear only where a product is legally registered, locally stocked and supported by approved pricing, payment, delivery, returns and customer service.</p><button className="button button-disabled" disabled>Retail launch pending</button></section>
 
-      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="#standard">Our standard</a><a href="#range">Products</a><a href="#partners">Partners</a><a href="/insights/">Insights</a><a href="#faq">FAQ</a><a href="#trace">Trace</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
+      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="/about/">About</a><a href="/distributors/">Distributors</a><a href="/insights/">Insights</a><a href="/editorial-policy/">Editorial policy</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
     </main>
   );
 }

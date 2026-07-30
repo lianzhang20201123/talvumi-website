@@ -112,6 +112,7 @@ const commerceConfig = {
 const catalog = [
   {
     id: "cat-ocean-fish",
+    productPath: "/products/adult-cat-ocean-fish/",
     type: "CAT · ADULT",
     species: "Cat",
     lifeStage: "Adult",
@@ -128,6 +129,7 @@ const catalog = [
   },
   {
     id: "dog-beef",
+    productPath: "/products/adult-dog-beef/",
     type: "DOG · ADULT",
     species: "Dog",
     lifeStage: "Adult",
@@ -138,12 +140,13 @@ const catalog = [
     image: "/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp",
     imagePosition: "89% center",
     variants: [
-      { id: "dog-beef-1500g", planningSku: "TVM-DA-BEF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
-      { id: "dog-beef-10000g", planningSku: "TVM-DA-BEF-10000", netWeightG: 1e4, displaySize: "10 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
+      { id: "dog-beef-1500g", planningSku: "TVM-DO-BEF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
+      { id: "dog-beef-10000g", planningSku: "TVM-DO-BEF-10000", netWeightG: 1e4, displaySize: "10 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
     ]
   },
   {
     id: "kitten-ocean-fish",
+    productPath: "/products/kitten-ocean-fish/",
     type: "CAT · KITTEN",
     species: "Cat",
     lifeStage: "Kitten",
@@ -154,8 +157,8 @@ const catalog = [
     image: "/assets/brand/talvumi-dry-pet-food-texture.webp",
     imagePosition: "72% center",
     variants: [
-      { id: "kitten-ocean-fish-1500g", planningSku: "TVM-CK-KOF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
-      { id: "kitten-ocean-fish-8000g", planningSku: "TVM-CK-KOF-8000", netWeightG: 8e3, displaySize: "8 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
+      { id: "kitten-ocean-fish-1500g", planningSku: "TVM-KI-AOF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
+      { id: "kitten-ocean-fish-8000g", planningSku: "TVM-KI-AOF-8000", netWeightG: 8e3, displaySize: "8 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
     ]
   }
 ];
@@ -176,6 +179,8 @@ function getVariant(variantId) {
   return variantIndex.get(variantId) || null;
 }
 const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator", "Veterinary / specialty channel"];
+const launchWindows = ["Within 3 months", "3–6 months", "6–12 months", "Exploring / not fixed"];
+const volumeBands = ["Samples / evaluation only", "Under 1 pallet", "1–5 pallets", "6–20 pallets", "20+ pallets", "Not yet estimated"];
 const faqs = [
   ["Who can become a TALVUMI distribution partner?", "We welcome applications from qualified importers, national and regional pet food distributors, retail chains, specialist pet retailers and ecommerce operators."],
   ["Which pet food products are planned for launch?", "The initial commercial candidates include adult cat ocean fish recipe, adult dog beef recipe and kitten ocean fish recipe. Final formulas, pack sizes, claims and availability depend on manufacturer documentation and market registration."],
@@ -300,6 +305,7 @@ function ProductShortlist() {
               /* @__PURE__ */ jsx("dd", { children: "Factory confirmation" })
             ] })
           ] }),
+          /* @__PURE__ */ jsx("a", { className: "product-data-link", href: product.productPath, children: "View buyer data page →" }),
           /* @__PURE__ */ jsx("button", { className: `button ${isAdded ? "button-disabled" : "button-primary"}`, type: "button", disabled: isAdded, onClick: () => addVariant(variant.id), children: isAdded ? "Added to shortlist" : "Add to product shortlist" })
         ] })
       ] }, product.id);
@@ -347,9 +353,15 @@ function ProductShortlist() {
           /* @__PURE__ */ jsx("button", { className: buyerMode === "trade" ? "active" : "", type: "button", onClick: () => setBuyerMode("trade"), children: "Wholesale quote" }),
           /* @__PURE__ */ jsx("button", { className: buyerMode === "retail" ? "active" : "", type: "button", onClick: () => setBuyerMode("retail"), children: "Retail early access" })
         ] }),
-        buyerMode === "trade" && /* @__PURE__ */ jsxs("label", { children: [
-          "Company name",
-          /* @__PURE__ */ jsx("input", { name: "company", autoComplete: "organization", required: true })
+        buyerMode === "trade" && /* @__PURE__ */ jsxs("div", { className: "form-grid", children: [
+          /* @__PURE__ */ jsxs("label", { children: [
+            "Company name",
+            /* @__PURE__ */ jsx("input", { name: "company", autoComplete: "organization", required: true })
+          ] }),
+          /* @__PURE__ */ jsxs("label", { children: [
+            "Contact name",
+            /* @__PURE__ */ jsx("input", { name: "contactName", autoComplete: "name", required: true })
+          ] })
         ] }),
         /* @__PURE__ */ jsxs("div", { className: "form-grid", children: [
           /* @__PURE__ */ jsxs("label", { children: [
@@ -381,6 +393,30 @@ function ProductShortlist() {
           ] })
         ] }),
         buyerMode === "trade" && /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsxs("div", { className: "form-grid", children: [
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Target launch window",
+              /* @__PURE__ */ jsxs("select", { name: "launchWindow", required: true, defaultValue: "", children: [
+                /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+                launchWindows.map((item) => /* @__PURE__ */ jsx("option", { children: item }, item))
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Expected opening order",
+              /* @__PURE__ */ jsxs("select", { name: "openingOrderBand", required: true, defaultValue: "", children: [
+                /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+                volumeBands.map((item) => /* @__PURE__ */ jsx("option", { children: item }, item))
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Company website",
+              /* @__PURE__ */ jsx("input", { name: "website", type: "url", autoComplete: "url", placeholder: "https://" })
+            ] }),
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Phone / WhatsApp",
+              /* @__PURE__ */ jsx("input", { name: "phone", type: "tel", autoComplete: "tel" })
+            ] })
+          ] }),
           /* @__PURE__ */ jsxs("label", { children: [
             "Preferred trade basis",
             /* @__PURE__ */ jsxs("select", { name: "incotermPreference", defaultValue: "", children: [
@@ -395,12 +431,59 @@ function ProductShortlist() {
             /* @__PURE__ */ jsx("textarea", { name: "notes", rows: "4", placeholder: "Share your target cities, channels, intended launch window and whether samples are required." })
           ] })
         ] }),
+        /* @__PURE__ */ jsxs("label", { className: "honeypot", "aria-hidden": "true", children: [
+          "Leave this field empty",
+          /* @__PURE__ */ jsx("input", { name: "companyFax", tabIndex: "-1", autoComplete: "off" })
+        ] }),
         /* @__PURE__ */ jsxs("label", { className: "consent", children: [
           /* @__PURE__ */ jsx("input", { name: "consent", type: "checkbox", required: true }),
-          /* @__PURE__ */ jsx("span", { children: "I agree that these details may be used to assess launch interest. This is not a purchase, reservation of inventory or price commitment." })
+          /* @__PURE__ */ jsxs("span", { children: [
+            "I agree that these details may be used to assess launch interest under the ",
+            /* @__PURE__ */ jsx("a", { href: "/privacy/", children: "privacy notice" }),
+            ". This is not a purchase, reservation of inventory or price commitment."
+          ] })
         ] }),
         /* @__PURE__ */ jsx("button", { className: "button button-primary", disabled: state.status === "sending" || !lines.length, children: state.status === "sending" ? "Submitting…" : buyerMode === "trade" ? "Request trade review" : "Join retail early access" }),
-        state.message && /* @__PURE__ */ jsx("p", { className: `form-message ${state.status}`, children: state.message })
+        state.message && /* @__PURE__ */ jsx("p", { "aria-live": "polite", className: `form-message ${state.status}`, children: state.message })
+      ] })
+    ] })
+  ] });
+}
+function LaunchReadiness() {
+  const gates = [
+    ["Product identity", "In factory verification", "Legal names, recipe references, life stage and final product documentation."],
+    ["Commercial terms", "Quote by market", "MOQ, tier price, trade basis and lead time are confirmed in writing for each qualified request."],
+    ["Packaging", "Engineering validation", "Final dimensions, barrier, seal window, case pack and transit performance require real-product testing."],
+    ["Market access", "Partner-led review", "Registration, importer responsibility, label language and local claims approval are assessed market by market."]
+  ];
+  return /* @__PURE__ */ jsxs("section", { className: "readiness section", "aria-labelledby": "readiness-title", children: [
+    /* @__PURE__ */ jsxs("div", { className: "readiness-heading", children: [
+      /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "BUYER DUE-DILIGENCE VIEW" }),
+        /* @__PURE__ */ jsxs("h2", { id: "readiness-title", children: [
+          "Know what is ready.",
+          /* @__PURE__ */ jsx("br", {}),
+          /* @__PURE__ */ jsx("em", { children: "Know what comes next." })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("p", { children: "TALVUMI does not turn planning data into a sales promise. Qualified partners receive a written status review before samples, registration work or a commercial order is agreed." })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "readiness-grid", children: gates.map(([name, status, detail], index) => /* @__PURE__ */ jsxs("article", { children: [
+      /* @__PURE__ */ jsxs("span", { children: [
+        "0",
+        index + 1
+      ] }),
+      /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx("strong", { children: name }),
+        /* @__PURE__ */ jsx("small", { children: status })
+      ] }),
+      /* @__PURE__ */ jsx("p", { children: detail })
+    ] }, name)) }),
+    /* @__PURE__ */ jsxs("div", { className: "readiness-actions", children: [
+      /* @__PURE__ */ jsx("a", { className: "button button-primary", href: "#preorder", children: "Build an RFQ shortlist" }),
+      /* @__PURE__ */ jsxs("a", { className: "text-link", href: "/distributors/", children: [
+        "Read the distributor process ",
+        /* @__PURE__ */ jsx("span", { children: "→" })
       ] })
     ] })
   ] });
@@ -513,6 +596,10 @@ function ApplicationForm() {
         /* @__PURE__ */ jsx("input", { name: "company", autoComplete: "organization", required: true })
       ] }),
       /* @__PURE__ */ jsxs("label", { children: [
+        "Contact name",
+        /* @__PURE__ */ jsx("input", { name: "contactName", autoComplete: "name", required: true })
+      ] }),
+      /* @__PURE__ */ jsxs("label", { children: [
         "Country / territory",
         /* @__PURE__ */ jsx("input", { name: "country", autoComplete: "country-name", required: true })
       ] }),
@@ -546,18 +633,44 @@ function ApplicationForm() {
           /* @__PURE__ */ jsx("option", { children: "Working with a licensed importer" }),
           /* @__PURE__ */ jsx("option", { children: "Not yet available" })
         ] })
+      ] }),
+      /* @__PURE__ */ jsxs("label", { children: [
+        "Target launch window",
+        /* @__PURE__ */ jsxs("select", { name: "launchWindow", required: true, defaultValue: "", children: [
+          /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+          launchWindows.map((item) => /* @__PURE__ */ jsx("option", { children: item }, item))
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs("label", { children: [
+        "Expected opening order",
+        /* @__PURE__ */ jsxs("select", { name: "openingOrderBand", required: true, defaultValue: "", children: [
+          /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+          volumeBands.map((item) => /* @__PURE__ */ jsx("option", { children: item }, item))
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs("label", { children: [
+        "Company website",
+        /* @__PURE__ */ jsx("input", { name: "website", type: "url", autoComplete: "url", placeholder: "https://" })
       ] })
     ] }),
     /* @__PURE__ */ jsxs("label", { children: [
       "Route to market and launch plan",
       /* @__PURE__ */ jsx("textarea", { name: "launchPlan", rows: "4", placeholder: "Tell us about your channels, cities and intended launch window.", required: true })
     ] }),
+    /* @__PURE__ */ jsxs("label", { className: "honeypot", "aria-hidden": "true", children: [
+      "Leave this field empty",
+      /* @__PURE__ */ jsx("input", { name: "companyFax", tabIndex: "-1", autoComplete: "off" })
+    ] }),
     /* @__PURE__ */ jsxs("label", { className: "consent", children: [
       /* @__PURE__ */ jsx("input", { name: "consent", type: "checkbox", required: true }),
-      /* @__PURE__ */ jsx("span", { children: "I confirm that this information is accurate and may be used to assess a potential commercial relationship." })
+      /* @__PURE__ */ jsxs("span", { children: [
+        "I confirm that this information is accurate and may be used to assess a potential commercial relationship under the ",
+        /* @__PURE__ */ jsx("a", { href: "/privacy/", children: "privacy notice" }),
+        "."
+      ] })
     ] }),
     /* @__PURE__ */ jsx("button", { className: "button button-primary", disabled: state.status === "sending", children: state.status === "sending" ? "Submitting…" : "Apply to partner" }),
-    state.message && /* @__PURE__ */ jsx("p", { className: `form-message ${state.status}`, children: state.message })
+    state.message && /* @__PURE__ */ jsx("p", { "aria-live": "polite", className: `form-message ${state.status}`, children: state.message })
   ] });
 }
 function App() {
@@ -755,6 +868,7 @@ function App() {
       ] }, product.id)) })
     ] }),
     /* @__PURE__ */ jsx(ProductShortlist, {}),
+    /* @__PURE__ */ jsx(LaunchReadiness, {}),
     /* @__PURE__ */ jsx(PackagingEngineering, {}),
     /* @__PURE__ */ jsxs("section", { id: "trace", className: "trace section", children: [
       /* @__PURE__ */ jsx("div", { className: "trace-mark", children: /* @__PURE__ */ jsx(Monogram, {}) }),
@@ -812,13 +926,13 @@ function App() {
     ] }),
     /* @__PURE__ */ jsxs("section", { id: "insights", className: "insights section", children: [
       /* @__PURE__ */ jsxs("div", { className: "insights-heading", children: [
-        /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "MARKET INSIGHTS · UPDATED DAILY" }),
+        /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "MARKET INSIGHTS · EVIDENCE-REVIEWED" }),
         /* @__PURE__ */ jsxs("h2", { children: [
           "Useful signals.",
           /* @__PURE__ */ jsx("br", {}),
           /* @__PURE__ */ jsx("em", { children: "Commercial intent." })
         ] }),
-        /* @__PURE__ */ jsx("p", { children: "Practical guidance for pet food importers, distributors and retail partners. New analysis is published as market evidence is verified." }),
+        /* @__PURE__ */ jsx("p", { children: "Practical guidance for pet food importers, distributors and retail partners. New analysis is published when its evidence and commercial boundaries have been reviewed." }),
         /* @__PURE__ */ jsxs("a", { className: "text-link", href: "/insights/", children: [
           "View all insights ",
           /* @__PURE__ */ jsx("span", { children: "→" })
@@ -883,12 +997,12 @@ function App() {
       ] }),
       /* @__PURE__ */ jsx("p", { children: "Verified premium nutrition—clear for pet parents, built for partners." }),
       /* @__PURE__ */ jsxs("div", { className: "footer-links", children: [
-        /* @__PURE__ */ jsx("a", { href: "#standard", children: "Our standard" }),
-        /* @__PURE__ */ jsx("a", { href: "#range", children: "Products" }),
-        /* @__PURE__ */ jsx("a", { href: "#partners", children: "Partners" }),
+        /* @__PURE__ */ jsx("a", { href: "/about/", children: "About" }),
+        /* @__PURE__ */ jsx("a", { href: "/distributors/", children: "Distributors" }),
         /* @__PURE__ */ jsx("a", { href: "/insights/", children: "Insights" }),
-        /* @__PURE__ */ jsx("a", { href: "#faq", children: "FAQ" }),
-        /* @__PURE__ */ jsx("a", { href: "#trace", children: "Trace" })
+        /* @__PURE__ */ jsx("a", { href: "/editorial-policy/", children: "Editorial policy" }),
+        /* @__PURE__ */ jsx("a", { href: "/privacy/", children: "Privacy" }),
+        /* @__PURE__ */ jsx("a", { href: "/terms/", children: "Terms" })
       ] }),
       /* @__PURE__ */ jsxs("small", { children: [
         "© ",

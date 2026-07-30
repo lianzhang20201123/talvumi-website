@@ -59,9 +59,13 @@ test("trade quotes whitelist products and ignore client-side price fields", asyn
     method: "POST",
     body: {
       company: "Example Distribution",
+      contactName: "Alex Buyer",
       email: "trade@example.com",
       country: "Singapore",
       partnerType: "Importer",
+      importStatus: "Active licence",
+      launchWindow: "Within 3 months",
+      openingOrderBand: "6–20 pallets",
       lines: [{ variantId: "dog-beef-10000g", requestedQty: 5, unit: "pallets", price: 1 }],
       consent: true,
     },
@@ -69,4 +73,3 @@ test("trade quotes whitelist products and ignore client-side price fields", asyn
   assert.equal(response.statusCode, 503);
   assert.ok(getVariant("dog-beef-10000g"));
 });
-

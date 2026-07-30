@@ -7,6 +7,22 @@ import { insights } from "../content/insights.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicRoot = path.join(root, "public");
 const insightsRoot = path.resolve(publicRoot, "insights");
+const sortedInsights = [...insights].sort((a, b) => b.date.localeCompare(a.date) || b.updated.localeCompare(a.updated));
+const socialImage = "https://talvumi.com/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp";
+const staticRoutes = [
+  "/products/adult-cat-ocean-fish/",
+  "/products/adult-dog-beef/",
+  "/products/kitten-ocean-fish/",
+  "/distributors/",
+  "/about/",
+  "/editorial-policy/",
+  "/privacy/",
+  "/terms/",
+];
+
+if (new Set(sortedInsights.map((article) => article.slug)).size !== sortedInsights.length) {
+  throw new Error("Insight slugs must be unique.");
+}
 
 if (!insightsRoot.startsWith(path.resolve(publicRoot) + path.sep)) {
   throw new Error("Refusing to generate insights outside the public directory.");
@@ -66,8 +82,14 @@ function pageShell({ title, description, canonical, body, schema, type = "websit
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="https://talvumi.com/assets/hero.png">
+  <meta property="og:image" content="${socialImage}">
+  <meta property="og:image:width" content="1600">
+  <meta property="og:image:height" content="1067">
+  <meta property="og:image:alt" content="TALVUMI cat and dog pet nutrition brand visual">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:description" content="${escapeHtml(description)}">
+  <meta name="twitter:image" content="${socialImage}">
   <script type="application/ld+json">${safeSchema}</script>
   <style>${styles}</style>
 </head>
@@ -79,7 +101,7 @@ function pageShell({ title, description, canonical, body, schema, type = "websit
 </html>`;
 }
 
-for (const article of insights) {
+for (const article of sortedInsights) {
   const articleDir = path.join(insightsRoot, article.slug);
   mkdirSync(articleDir, { recursive: true });
   const canonical = `https://talvumi.com/insights/${article.slug}/`;
@@ -99,7 +121,7 @@ for (const article of insights) {
         keywords: article.keywords.join(", "),
         author: { "@id": "https://talvumi.com/#organization" },
         publisher: { "@id": "https://talvumi.com/#organization" },
-        image: "https://talvumi.com/assets/hero.png",
+        image: socialImage,
         articleBody: articleText
       },
       {
@@ -150,7 +172,7 @@ const indexSchema = {
   publisher: { "@id": "https://talvumi.com/#organization" },
   mainEntity: {
     "@type": "ItemList",
-    itemListElement: insights.map((article, index) => ({
+    itemListElement: sortedInsights.map((article, index) => ({
       "@type": "ListItem",
       position: index + 1,
       url: `https://talvumi.com/insights/${article.slug}/`,
@@ -160,8 +182,8 @@ const indexSchema = {
 };
 const indexBody = `
   <main>
-    <header class="hero"><p class="eyebrow">TALVUMI MARKET DESK · UPDATED DAILY</p><h1>Pet food distribution<br><em>insights that travel.</em></h1><p>Evidence-led guidance for importers, distributors, retail chains and ecommerce operators building pet food categories across markets.</p></header>
-    <section class="articles">${insights.map((article) => `<a class="card" href="/insights/${article.slug}/"><time datetime="${article.date}">${article.date}</time><p class="category">${escapeHtml(article.category)}</p><h2>${escapeHtml(article.title)}</h2><p>${escapeHtml(article.excerpt)}</p><strong>Read analysis →</strong></a>`).join("")}</section>
+    <header class="hero"><p class="eyebrow">TALVUMI MARKET DESK · EVIDENCE-REVIEWED</p><h1>Pet food distribution<br><em>insights that travel.</em></h1><p>Evidence-led guidance for importers, distributors, retail chains and ecommerce operators building pet food categories across markets.</p></header>
+    <section class="articles">${sortedInsights.map((article) => `<a class="card" href="/insights/${article.slug}/"><time datetime="${article.date}">${article.date}</time><p class="category">${escapeHtml(article.category)}</p><h2>${escapeHtml(article.title)}</h2><p>${escapeHtml(article.excerpt)}</p><strong>Read analysis →</strong></a>`).join("")}</section>
   </main>`;
 writeFileSync(
   path.join(insightsRoot, "index.html"),
@@ -176,9 +198,10 @@ writeFileSync(
 );
 
 const sitemapUrls = [
-  { loc: "https://talvumi.com/", lastmod: insights[0]?.updated || "2026-07-30", priority: "1.0" },
-  { loc: indexCanonical, lastmod: insights[0]?.updated || "2026-07-30", priority: "0.9" },
-  ...insights.map((article) => ({ loc: `https://talvumi.com/insights/${article.slug}/`, lastmod: article.updated, priority: "0.8" }))
+  { loc: "https://talvumi.com/", lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: "1.0" },
+  { loc: indexCanonical, lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: "0.9" },
+  ...staticRoutes.map((route) => ({ loc: `https://talvumi.com${route}`, lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: route.startsWith("/products/") ? "0.9" : "0.7" })),
+  ...sortedInsights.map((article) => ({ loc: `https://talvumi.com/insights/${article.slug}/`, lastmod: article.updated, priority: "0.8" }))
 ];
 writeFileSync(path.join(publicRoot, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -192,7 +215,8 @@ writeFileSync(path.join(publicRoot, "feed.xml"), `<?xml version="1.0" encoding="
   <link>https://talvumi.com/insights/</link>
   <description>Commercial guidance for pet food importers, distributors and retail partners.</description>
   <language>en</language>
-  ${insights.map((article) => `<item><title>${escapeHtml(article.title)}</title><link>https://talvumi.com/insights/${article.slug}/</link><guid>https://talvumi.com/insights/${article.slug}/</guid><pubDate>${new Date(`${article.date}T00:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(article.excerpt)}</description></item>`).join("")}
+  <lastBuildDate>${new Date(`${sortedInsights[0]?.updated || "2026-07-30"}T00:00:00Z`).toUTCString()}</lastBuildDate>
+  ${sortedInsights.map((article) => `<item><title>${escapeHtml(article.title)}</title><link>https://talvumi.com/insights/${article.slug}/</link><guid>https://talvumi.com/insights/${article.slug}/</guid><pubDate>${new Date(`${article.date}T00:00:00Z`).toUTCString()}</pubDate><category>${escapeHtml(article.category)}</category><description>${escapeHtml(article.excerpt)}</description></item>`).join("")}
 </channel></rss>
 `, "utf8");
 
@@ -200,7 +224,7 @@ writeFileSync(path.join(publicRoot, "llms-full.txt"), `# TALVUMI Market Insights
 
 Official article index: https://talvumi.com/insights/
 
-${insights.map((article) => `## ${article.title}
+${sortedInsights.map((article) => `## ${article.title}
 
 - URL: https://talvumi.com/insights/${article.slug}/
 - Published: ${article.date}
@@ -211,4 +235,4 @@ ${insights.map((article) => `## ${article.title}
 ${article.sections.map((section) => `### ${section.heading}\n\n${section.paragraphs.join("\n\n")}`).join("\n\n")}`).join("\n\n")}
 `, "utf8");
 
-console.log(`Generated ${insights.length} TALVUMI insight articles, index, RSS, sitemap and AI corpus.`);
+console.log(`Generated ${sortedInsights.length} TALVUMI insight articles, index, RSS, sitemap and AI corpus.`);
