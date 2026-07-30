@@ -19,3 +19,6 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Independent single-ingredient freeze-dried treats remain a future concept, not a currently verified launch SKU.
 - The website must identify as a pet-food brand at first glance through original cat, dog and visible-food imagery; retain the high-impact sculptural brand system and distributor-first tone.
 - Never publish legacy concept images that show unverified "BATCH VERIFIED" language, incorrect recipes or pack sizes, or independent freeze-dried treats as current launch products.
+- Until market gates pass, the commerce experience is a Product Shortlist: wholesale RFQ plus retail early access. It must state that no payment, price, inventory or delivery commitment is created.
+- Internal planning SKUs may be published as stable identifiers; GTIN/EAN/UPC, case pack, MOQ and commercial price remain null until written confirmation.
+- Packaging dimensions, laminate stacks and case packs shown on the website are RFQ starting points only. Final specifications require factory filling-line compatibility, real-product density, barrier, seal, shelf-life and transit testing.

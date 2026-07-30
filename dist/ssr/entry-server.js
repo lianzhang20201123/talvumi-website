@@ -1,5 +1,5 @@
-import { jsxs, jsx } from "react/jsx-runtime";
-import { useState, useMemo } from "react";
+import { jsxs, jsx, Fragment } from "react/jsx-runtime";
+import { useState, useMemo, useEffect } from "react";
 import { renderToString } from "react-dom/server";
 const insights = [
   {
@@ -106,11 +106,75 @@ const insights = [
     ]
   }
 ];
-const products = [
-  { id: "cat-ocean-fish", type: "CAT · ADULT", name: "Ocean Fish Recipe", descriptor: "with freeze-dried pieces", sizes: "1.5 kg · 10 kg", status: "Commercial specification pending", tone: "aubergine" },
-  { id: "dog-beef", type: "DOG · ADULT", name: "Beef Recipe", descriptor: "with freeze-dried pieces", sizes: "1.5 kg · 10 kg", status: "Commercial specification pending", tone: "cobalt" },
-  { id: "kitten-ocean-fish", type: "CAT · KITTEN", name: "Ocean Fish Recipe", descriptor: "growth-stage product", sizes: "1.5 kg · 8 kg", status: "Nutrition basis under verification", tone: "cyan" }
+const commerceConfig = {
+  privacyVersion: "2026-07-30"
+};
+const catalog = [
+  {
+    id: "cat-ocean-fish",
+    type: "CAT · ADULT",
+    species: "Cat",
+    lifeStage: "Adult",
+    name: "Ocean Fish Recipe",
+    descriptor: "with freeze-dried pieces",
+    tone: "aubergine",
+    status: "Commercial specification pending",
+    image: "/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp",
+    imagePosition: "65% center",
+    variants: [
+      { id: "cat-ocean-fish-1500g", planningSku: "TVM-CA-AOF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
+      { id: "cat-ocean-fish-10000g", planningSku: "TVM-CA-AOF-10000", netWeightG: 1e4, displaySize: "10 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
+    ]
+  },
+  {
+    id: "dog-beef",
+    type: "DOG · ADULT",
+    species: "Dog",
+    lifeStage: "Adult",
+    name: "Beef Recipe",
+    descriptor: "with freeze-dried pieces",
+    tone: "cobalt",
+    status: "Commercial specification pending",
+    image: "/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp",
+    imagePosition: "89% center",
+    variants: [
+      { id: "dog-beef-1500g", planningSku: "TVM-DA-BEF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
+      { id: "dog-beef-10000g", planningSku: "TVM-DA-BEF-10000", netWeightG: 1e4, displaySize: "10 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
+    ]
+  },
+  {
+    id: "kitten-ocean-fish",
+    type: "CAT · KITTEN",
+    species: "Cat",
+    lifeStage: "Kitten",
+    name: "Ocean Fish Recipe",
+    descriptor: "growth-stage product",
+    tone: "cyan",
+    status: "Nutrition basis under verification",
+    image: "/assets/brand/talvumi-dry-pet-food-texture.webp",
+    imagePosition: "72% center",
+    variants: [
+      { id: "kitten-ocean-fish-1500g", planningSku: "TVM-CK-KOF-1500", netWeightG: 1500, displaySize: "1.5 kg", gtin: null, casePack: null, priceStatus: "request_quote" },
+      { id: "kitten-ocean-fish-8000g", planningSku: "TVM-CK-KOF-8000", netWeightG: 8e3, displaySize: "8 kg", gtin: null, casePack: null, priceStatus: "request_quote" }
+    ]
+  }
 ];
+const variantIndex = new Map(
+  catalog.flatMap(
+    (product) => product.variants.map((variant) => [
+      variant.id,
+      {
+        ...variant,
+        productId: product.id,
+        productName: product.name,
+        productType: product.type
+      }
+    ])
+  )
+);
+function getVariant(variantId) {
+  return variantIndex.get(variantId) || null;
+}
 const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator", "Veterinary / specialty channel"];
 const faqs = [
   ["Who can become a TALVUMI distribution partner?", "We welcome applications from qualified importers, national and regional pet food distributors, retail chains, specialist pet retailers and ecommerce operators."],
@@ -135,6 +199,286 @@ function PackConcept({ product, compact = false }) {
     /* @__PURE__ */ jsx("strong", { children: product.name }),
     /* @__PURE__ */ jsx("small", { children: product.descriptor }),
     /* @__PURE__ */ jsx("i", {})
+  ] });
+}
+function ProductShortlist() {
+  const [selected, setSelected] = useState(() => Object.fromEntries(catalog.map((product) => [product.id, product.variants[0].id])));
+  const [lines, setLines] = useState([]);
+  const [buyerMode, setBuyerMode] = useState("trade");
+  const [state, setState] = useState({ status: "idle", message: "" });
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("talvumi-product-shortlist-v1") || "[]");
+      if (Array.isArray(saved)) setLines(saved.filter((line) => getVariant(line.variantId)).slice(0, 12));
+    } catch {
+      localStorage.removeItem("talvumi-product-shortlist-v1");
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("talvumi-product-shortlist-v1", JSON.stringify(lines));
+  }, [lines]);
+  function addVariant(variantId) {
+    setLines((current) => current.some((line) => line.variantId === variantId) ? current : [...current, { variantId, requestedQty: 1, unit: "bags" }]);
+    setState({ status: "idle", message: "" });
+    requestAnimationFrame(() => {
+      var _a;
+      return (_a = document.querySelector("#shortlist")) == null ? void 0 : _a.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+  function updateLine(variantId, patch) {
+    setLines((current) => current.map((line) => line.variantId === variantId ? { ...line, ...patch } : line));
+  }
+  function removeLine(variantId) {
+    setLines((current) => current.filter((line) => line.variantId !== variantId));
+  }
+  async function submit(event) {
+    event.preventDefault();
+    if (!lines.length) {
+      setState({ status: "pending", message: "Add at least one product specification before continuing." });
+      return;
+    }
+    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const isTrade = buyerMode === "trade";
+    const payload = isTrade ? { ...data, lines, consent: data.consent === "on", privacyVersion: commerceConfig.privacyVersion, source: "homepage-product-shortlist" } : { email: data.email, country: data.country, variantIds: lines.map((line) => line.variantId), consent: data.consent === "on", privacyVersion: commerceConfig.privacyVersion, source: "homepage-product-shortlist" };
+    setState({ status: "sending", message: isTrade ? "Validating trade request…" : "Validating early-access request…" });
+    try {
+      const response = await fetch(isTrade ? "/api/quote-requests" : "/api/early-access", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "The intake service is not connected yet.");
+      setState({ status: "success", message: `Request received. Reference: ${result.reference}` });
+      setLines([]);
+      event.currentTarget.reset();
+    } catch (error) {
+      setState({ status: "pending", message: `${error.message} Your request has not been stored.` });
+    }
+  }
+  return /* @__PURE__ */ jsxs("section", { id: "preorder", className: "commerce section", children: [
+    /* @__PURE__ */ jsxs("div", { className: "commerce-heading", children: [
+      /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "PRE-LAUNCH PRODUCT CONFIGURATOR" }),
+      /* @__PURE__ */ jsxs("h2", { children: [
+        "Choose the range.",
+        /* @__PURE__ */ jsx("br", {}),
+        /* @__PURE__ */ jsx("em", { children: "Build the request." })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsx("p", { children: "Select product candidates and pack sizes for a distributor quote or retail launch notification. No payment, price or stock commitment is created at this stage." }),
+        /* @__PURE__ */ jsx("span", { className: "commerce-status", children: "INTEREST MODE · PAYMENT DISABLED" })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "commerce-grid", children: catalog.map((product) => {
+      const variant = product.variants.find((item) => item.id === selected[product.id]) || product.variants[0];
+      const isAdded = lines.some((line) => line.variantId === variant.id);
+      return /* @__PURE__ */ jsxs("article", { className: `commerce-card ${product.tone}`, children: [
+        /* @__PURE__ */ jsxs("div", { className: "commerce-image", children: [
+          /* @__PURE__ */ jsx("img", { src: product.image, alt: "", loading: "lazy", decoding: "async", style: { objectPosition: product.imagePosition } }),
+          /* @__PURE__ */ jsx("span", { children: product.type })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "commerce-card-copy", children: [
+          /* @__PURE__ */ jsxs("p", { children: [
+            product.lifeStage,
+            " ",
+            product.species
+          ] }),
+          /* @__PURE__ */ jsx("h3", { children: product.name }),
+          /* @__PURE__ */ jsx("small", { children: product.descriptor }),
+          /* @__PURE__ */ jsx("div", { className: "variant-switch", "aria-label": `Choose ${product.name} pack size`, children: product.variants.map((item) => /* @__PURE__ */ jsx("button", { className: item.id === variant.id ? "active" : "", type: "button", onClick: () => setSelected((current) => ({ ...current, [product.id]: item.id })), children: item.displaySize }, item.id)) }),
+          /* @__PURE__ */ jsxs("dl", { children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("dt", { children: "Planning SKU" }),
+              /* @__PURE__ */ jsx("dd", { children: variant.planningSku })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("dt", { children: "Price" }),
+              /* @__PURE__ */ jsx("dd", { children: "Market quote pending" })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("dt", { children: "Barcode / case pack" }),
+              /* @__PURE__ */ jsx("dd", { children: "Factory confirmation" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsx("button", { className: `button ${isAdded ? "button-disabled" : "button-primary"}`, type: "button", disabled: isAdded, onClick: () => addVariant(variant.id), children: isAdded ? "Added to shortlist" : "Add to product shortlist" })
+        ] })
+      ] }, product.id);
+    }) }),
+    /* @__PURE__ */ jsxs("div", { id: "shortlist", className: "shortlist", children: [
+      /* @__PURE__ */ jsxs("div", { className: "shortlist-summary", children: [
+        /* @__PURE__ */ jsxs("div", { className: "shortlist-title", children: [
+          /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "YOUR PRODUCT SHORTLIST" }),
+          /* @__PURE__ */ jsxs("span", { children: [
+            lines.length,
+            " ",
+            lines.length === 1 ? "specification" : "specifications"
+          ] })
+        ] }),
+        lines.length ? /* @__PURE__ */ jsx("div", { className: "shortlist-lines", children: lines.map((line) => {
+          const variant = getVariant(line.variantId);
+          return /* @__PURE__ */ jsxs("article", { children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("strong", { children: variant.productType }),
+              /* @__PURE__ */ jsxs("h3", { children: [
+                variant.productName,
+                " · ",
+                variant.displaySize
+              ] }),
+              /* @__PURE__ */ jsx("small", { children: variant.planningSku })
+            ] }),
+            buyerMode === "trade" && /* @__PURE__ */ jsxs("div", { className: "line-quantity", children: [
+              /* @__PURE__ */ jsx("input", { "aria-label": `Quantity for ${variant.planningSku}`, type: "number", min: "1", max: "99999", value: line.requestedQty, onChange: (event) => updateLine(line.variantId, { requestedQty: Math.max(1, Number(event.target.value) || 1) }) }),
+              /* @__PURE__ */ jsxs("select", { "aria-label": `Unit for ${variant.planningSku}`, value: line.unit, onChange: (event) => updateLine(line.variantId, { unit: event.target.value }), children: [
+                /* @__PURE__ */ jsx("option", { value: "bags", children: "bags" }),
+                /* @__PURE__ */ jsx("option", { value: "cases", children: "cases" }),
+                /* @__PURE__ */ jsx("option", { value: "pallets", children: "pallets" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsx("button", { type: "button", onClick: () => removeLine(line.variantId), "aria-label": `Remove ${variant.planningSku}`, children: "Remove" })
+          ] }, line.variantId);
+        }) }) : /* @__PURE__ */ jsxs("div", { className: "shortlist-empty", children: [
+          /* @__PURE__ */ jsx("strong", { children: "No products selected yet." }),
+          /* @__PURE__ */ jsx("p", { children: "Choose one or more pack specifications above to build a trade request or join retail early access." })
+        ] }),
+        /* @__PURE__ */ jsx("p", { className: "shortlist-note", children: "Planning SKUs are internal identifiers. GTIN, case pack, MOQ, price, inventory and delivery dates remain pending written confirmation." })
+      ] }),
+      /* @__PURE__ */ jsxs("form", { className: "shortlist-form", onSubmit: submit, children: [
+        /* @__PURE__ */ jsxs("div", { className: "buyer-toggle", "aria-label": "Choose request type", children: [
+          /* @__PURE__ */ jsx("button", { className: buyerMode === "trade" ? "active" : "", type: "button", onClick: () => setBuyerMode("trade"), children: "Wholesale quote" }),
+          /* @__PURE__ */ jsx("button", { className: buyerMode === "retail" ? "active" : "", type: "button", onClick: () => setBuyerMode("retail"), children: "Retail early access" })
+        ] }),
+        buyerMode === "trade" && /* @__PURE__ */ jsxs("label", { children: [
+          "Company name",
+          /* @__PURE__ */ jsx("input", { name: "company", autoComplete: "organization", required: true })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "form-grid", children: [
+          /* @__PURE__ */ jsxs("label", { children: [
+            buyerMode === "trade" ? "Work email" : "Email",
+            /* @__PURE__ */ jsx("input", { name: "email", type: "email", autoComplete: "email", required: true })
+          ] }),
+          /* @__PURE__ */ jsxs("label", { children: [
+            "Country / territory",
+            /* @__PURE__ */ jsx("input", { name: "country", autoComplete: "country-name", required: true })
+          ] }),
+          buyerMode === "trade" && /* @__PURE__ */ jsxs(Fragment, { children: [
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Partner type",
+              /* @__PURE__ */ jsxs("select", { name: "partnerType", required: true, defaultValue: "", children: [
+                /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+                partnerTypes.map((item) => /* @__PURE__ */ jsx("option", { children: item }, item))
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("label", { children: [
+              "Import status",
+              /* @__PURE__ */ jsxs("select", { name: "importStatus", required: true, defaultValue: "", children: [
+                /* @__PURE__ */ jsx("option", { value: "", disabled: true, children: "Select one" }),
+                /* @__PURE__ */ jsx("option", { children: "Active licence" }),
+                /* @__PURE__ */ jsx("option", { children: "In progress" }),
+                /* @__PURE__ */ jsx("option", { children: "Licensed importer partner" }),
+                /* @__PURE__ */ jsx("option", { children: "Not yet available" })
+              ] })
+            ] })
+          ] })
+        ] }),
+        buyerMode === "trade" && /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsxs("label", { children: [
+            "Preferred trade basis",
+            /* @__PURE__ */ jsxs("select", { name: "incotermPreference", defaultValue: "", children: [
+              /* @__PURE__ */ jsx("option", { value: "", children: "Discuss with TALVUMI" }),
+              /* @__PURE__ */ jsx("option", { children: "EXW — named place required" }),
+              /* @__PURE__ */ jsx("option", { children: "FOB — named port required" }),
+              /* @__PURE__ */ jsx("option", { children: "CIF — named destination port required" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs("label", { children: [
+            "Launch plan / sample request",
+            /* @__PURE__ */ jsx("textarea", { name: "notes", rows: "4", placeholder: "Share your target cities, channels, intended launch window and whether samples are required." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs("label", { className: "consent", children: [
+          /* @__PURE__ */ jsx("input", { name: "consent", type: "checkbox", required: true }),
+          /* @__PURE__ */ jsx("span", { children: "I agree that these details may be used to assess launch interest. This is not a purchase, reservation of inventory or price commitment." })
+        ] }),
+        /* @__PURE__ */ jsx("button", { className: "button button-primary", disabled: state.status === "sending" || !lines.length, children: state.status === "sending" ? "Submitting…" : buyerMode === "trade" ? "Request trade review" : "Join retail early access" }),
+        state.message && /* @__PURE__ */ jsx("p", { className: `form-message ${state.status}`, children: state.message })
+      ] })
+    ] })
+  ] });
+}
+function PackagingEngineering() {
+  const packs = [
+    {
+      size: "1.5 kg",
+      role: "Retail launch pack",
+      bag: "Flat-bottom or press-to-close stand-up pouch",
+      window: "RFQ window: 240–280 × 350–420 mm; gusset 80–110 mm",
+      material: "Start point: PET 12 / VMPET 12 / food-contact mLLDPE 80–100 μm",
+      features: "Tamper-evident top seal · easy tear · reclose zipper",
+      transit: "Test 4 bags / case and 6 bags / case"
+    },
+    {
+      size: "8 kg",
+      role: "Family / channel pack",
+      bag: "Flat-bottom or load-rated quad-seal bag",
+      window: "RFQ window: 380–450 × 650–760 mm; gusset 120–180 mm",
+      material: "Start point: PET 12 / PA 15 / VMPET 12 / mLLDPE 110–140 μm",
+      features: "Tamper-evident seal · reinforced side handle · heavy-duty reclose",
+      transit: "Start with one bag / corrugated shipper"
+    },
+    {
+      size: "10 kg",
+      role: "Large-format trade pack",
+      bag: "Heavy-duty quad-seal or flat-bottom bag",
+      window: "RFQ window: 420–500 × 700–850 mm; gusset 140–200 mm",
+      material: "Start point: PET 12 / PA 15 / VMPET 12 / mLLDPE 130–160 μm",
+      features: "Reinforced corners · side handle · load-rated zipper and top seal",
+      transit: "One bag / shipper unless channel testing approves bulk palletisation"
+    }
+  ];
+  return /* @__PURE__ */ jsxs("section", { id: "packaging", className: "packaging section", children: [
+    /* @__PURE__ */ jsxs("div", { className: "packaging-heading", children: [
+      /* @__PURE__ */ jsx("p", { className: "eyebrow", children: "PACKAGING ENGINEERING · RFQ START POINT" }),
+      /* @__PURE__ */ jsxs("h2", { children: [
+        "Designed to sell.",
+        /* @__PURE__ */ jsx("br", {}),
+        /* @__PURE__ */ jsx("em", { children: "Engineered to travel." })
+      ] }),
+      /* @__PURE__ */ jsx("p", { children: "These parameters are a disciplined starting brief for the factory and converter—not final production claims. Finished dimensions, laminate, barrier, seal window and case pack must be validated with the real kibble, filling line and target-market distribution test." })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "packaging-grid", children: packs.map((pack, index) => /* @__PURE__ */ jsxs("article", { children: [
+      /* @__PURE__ */ jsxs("div", { children: [
+        /* @__PURE__ */ jsxs("span", { children: [
+          "0",
+          index + 1
+        ] }),
+        /* @__PURE__ */ jsx("strong", { children: pack.size })
+      ] }),
+      /* @__PURE__ */ jsx("p", { children: pack.role }),
+      /* @__PURE__ */ jsx("h3", { children: pack.bag }),
+      /* @__PURE__ */ jsxs("dl", { children: [
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("dt", { children: "Size brief" }),
+          /* @__PURE__ */ jsx("dd", { children: pack.window })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("dt", { children: "Laminate brief" }),
+          /* @__PURE__ */ jsx("dd", { children: pack.material })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("dt", { children: "Functional parts" }),
+          /* @__PURE__ */ jsx("dd", { children: pack.features })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("dt", { children: "Transit pack" }),
+          /* @__PURE__ */ jsx("dd", { children: pack.transit })
+        ] })
+      ] })
+    ] }, pack.size)) }),
+    /* @__PURE__ */ jsxs("div", { className: "packaging-gates", children: [
+      /* @__PURE__ */ jsx("strong", { children: "Factory lock required" }),
+      /* @__PURE__ */ jsx("p", { children: "Kibble bulk density, largest particle, surface oil, target shelf life, nitrogen use, current film data, filling-line limits, seal settings, coder footprint, drop history and final pallet route." }),
+      /* @__PURE__ */ jsx("span", { children: "NO “RECYCLABLE”, BARRIER OR SHELF-LIFE CLAIM UNTIL TESTED" })
+    ] })
   ] });
 }
 function ApplicationForm() {
@@ -235,11 +579,11 @@ function App() {
       ] }),
       /* @__PURE__ */ jsxs("nav", { "aria-label": "Primary navigation", children: [
         /* @__PURE__ */ jsx("a", { href: "#range", children: "Range" }),
-        /* @__PURE__ */ jsx("a", { href: "#standard", children: "Our standard" }),
-        /* @__PURE__ */ jsx("a", { href: "#trace", children: "Trace" }),
+        /* @__PURE__ */ jsx("a", { href: "#preorder", children: "Pre-launch" }),
+        /* @__PURE__ */ jsx("a", { href: "#packaging", children: "Packaging" }),
         /* @__PURE__ */ jsx("a", { href: "#partners", children: "Partners" })
       ] }),
-      /* @__PURE__ */ jsx("a", { className: "button button-small", href: "#apply", children: "Become a distributor" })
+      /* @__PURE__ */ jsx("a", { className: "button button-small", href: "#preorder", children: "Build a product shortlist" })
     ] }),
     /* @__PURE__ */ jsxs("section", { id: "top", className: "hero", children: [
       /* @__PURE__ */ jsx("div", { className: "hero-noise" }),
@@ -383,7 +727,7 @@ function App() {
         ] }),
         /* @__PURE__ */ jsx("p", { children: "Formats and specifications remain subject to final manufacturer documentation, market registration and written commercial confirmation." })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "product-grid", children: products.map((product, index) => /* @__PURE__ */ jsxs("article", { className: `product-card ${product.tone}`, children: [
+      /* @__PURE__ */ jsx("div", { className: "product-grid", children: catalog.map((product, index) => /* @__PURE__ */ jsxs("article", { className: `product-card ${product.tone}`, children: [
         /* @__PURE__ */ jsxs("div", { className: "product-index", children: [
           "0",
           index + 1
@@ -396,20 +740,22 @@ function App() {
           /* @__PURE__ */ jsxs("dl", { children: [
             /* @__PURE__ */ jsxs("div", { children: [
               /* @__PURE__ */ jsx("dt", { children: "Pack plan" }),
-              /* @__PURE__ */ jsx("dd", { children: product.sizes })
+              /* @__PURE__ */ jsx("dd", { children: product.variants.map((variant) => variant.displaySize).join(" · ") })
             ] }),
             /* @__PURE__ */ jsxs("div", { children: [
               /* @__PURE__ */ jsx("dt", { children: "Status" }),
               /* @__PURE__ */ jsx("dd", { children: product.status })
             ] })
           ] }),
-          /* @__PURE__ */ jsxs("a", { href: "#apply", children: [
-            "Trade enquiry ",
+          /* @__PURE__ */ jsxs("a", { href: "#preorder", children: [
+            "Build a product shortlist ",
             /* @__PURE__ */ jsx("span", { children: "→" })
           ] })
         ] })
       ] }, product.id)) })
     ] }),
+    /* @__PURE__ */ jsx(ProductShortlist, {}),
+    /* @__PURE__ */ jsx(PackagingEngineering, {}),
     /* @__PURE__ */ jsxs("section", { id: "trace", className: "trace section", children: [
       /* @__PURE__ */ jsx("div", { className: "trace-mark", children: /* @__PURE__ */ jsx(Monogram, {}) }),
       /* @__PURE__ */ jsxs("div", { className: "trace-copy", children: [

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "node scripts/generate-insights.mjs && vite build && vite build --ssr src/entry-server.jsx --outDir dist/ssr && node scripts/prerender.mjs && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
-    "test:sites": "node --test tests/sites-worker.test.mjs"
+    "test:sites": "node --test tests/sites-worker.test.mjs",
+    "test:commerce": "node --test tests/commerce-api.test.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "5.0.4",

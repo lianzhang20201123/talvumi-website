@@ -1,11 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { insights } from "../content/insights.mjs";
-
-const products = [
-  { id: "cat-ocean-fish", type: "CAT · ADULT", name: "Ocean Fish Recipe", descriptor: "with freeze-dried pieces", sizes: "1.5 kg · 10 kg", status: "Commercial specification pending", tone: "aubergine" },
-  { id: "dog-beef", type: "DOG · ADULT", name: "Beef Recipe", descriptor: "with freeze-dried pieces", sizes: "1.5 kg · 10 kg", status: "Commercial specification pending", tone: "cobalt" },
-  { id: "kitten-ocean-fish", type: "CAT · KITTEN", name: "Ocean Fish Recipe", descriptor: "growth-stage product", sizes: "1.5 kg · 8 kg", status: "Nutrition basis under verification", tone: "cyan" },
-];
+import { catalog as products, commerceConfig, getVariant } from "../content/catalog.mjs";
 
 const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator", "Veterinary / specialty channel"];
 
@@ -38,6 +33,199 @@ function PackConcept({ product, compact = false }) {
       <small>{product.descriptor}</small>
       <i />
     </div>
+  );
+}
+
+function ProductShortlist() {
+  const [selected, setSelected] = useState(() => Object.fromEntries(products.map((product) => [product.id, product.variants[0].id])));
+  const [lines, setLines] = useState([]);
+  const [buyerMode, setBuyerMode] = useState("trade");
+  const [state, setState] = useState({ status: "idle", message: "" });
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("talvumi-product-shortlist-v1") || "[]");
+      if (Array.isArray(saved)) setLines(saved.filter((line) => getVariant(line.variantId)).slice(0, 12));
+    } catch {
+      localStorage.removeItem("talvumi-product-shortlist-v1");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("talvumi-product-shortlist-v1", JSON.stringify(lines));
+  }, [lines]);
+
+  function addVariant(variantId) {
+    setLines((current) => current.some((line) => line.variantId === variantId) ? current : [...current, { variantId, requestedQty: 1, unit: "bags" }]);
+    setState({ status: "idle", message: "" });
+    requestAnimationFrame(() => document.querySelector("#shortlist")?.scrollIntoView({ behavior: "smooth", block: "center" }));
+  }
+
+  function updateLine(variantId, patch) {
+    setLines((current) => current.map((line) => line.variantId === variantId ? { ...line, ...patch } : line));
+  }
+
+  function removeLine(variantId) {
+    setLines((current) => current.filter((line) => line.variantId !== variantId));
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+    if (!lines.length) {
+      setState({ status: "pending", message: "Add at least one product specification before continuing." });
+      return;
+    }
+    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const isTrade = buyerMode === "trade";
+    const payload = isTrade
+      ? { ...data, lines, consent: data.consent === "on", privacyVersion: commerceConfig.privacyVersion, source: "homepage-product-shortlist" }
+      : { email: data.email, country: data.country, variantIds: lines.map((line) => line.variantId), consent: data.consent === "on", privacyVersion: commerceConfig.privacyVersion, source: "homepage-product-shortlist" };
+    setState({ status: "sending", message: isTrade ? "Validating trade request…" : "Validating early-access request…" });
+    try {
+      const response = await fetch(isTrade ? "/api/quote-requests" : "/api/early-access", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "The intake service is not connected yet.");
+      setState({ status: "success", message: `Request received. Reference: ${result.reference}` });
+      setLines([]);
+      event.currentTarget.reset();
+    } catch (error) {
+      setState({ status: "pending", message: `${error.message} Your request has not been stored.` });
+    }
+  }
+
+  return (
+    <section id="preorder" className="commerce section">
+      <div className="commerce-heading">
+        <p className="eyebrow">PRE-LAUNCH PRODUCT CONFIGURATOR</p>
+        <h2>Choose the range.<br /><em>Build the request.</em></h2>
+        <div>
+          <p>Select product candidates and pack sizes for a distributor quote or retail launch notification. No payment, price or stock commitment is created at this stage.</p>
+          <span className="commerce-status">INTEREST MODE · PAYMENT DISABLED</span>
+        </div>
+      </div>
+
+      <div className="commerce-grid">
+        {products.map((product) => {
+          const variant = product.variants.find((item) => item.id === selected[product.id]) || product.variants[0];
+          const isAdded = lines.some((line) => line.variantId === variant.id);
+          return (
+            <article className={`commerce-card ${product.tone}`} key={product.id}>
+              <div className="commerce-image">
+                <img src={product.image} alt="" loading="lazy" decoding="async" style={{ objectPosition: product.imagePosition }} />
+                <span>{product.type}</span>
+              </div>
+              <div className="commerce-card-copy">
+                <p>{product.lifeStage} {product.species}</p>
+                <h3>{product.name}</h3>
+                <small>{product.descriptor}</small>
+                <div className="variant-switch" aria-label={`Choose ${product.name} pack size`}>
+                  {product.variants.map((item) => <button className={item.id === variant.id ? "active" : ""} type="button" key={item.id} onClick={() => setSelected((current) => ({ ...current, [product.id]: item.id }))}>{item.displaySize}</button>)}
+                </div>
+                <dl>
+                  <div><dt>Planning SKU</dt><dd>{variant.planningSku}</dd></div>
+                  <div><dt>Price</dt><dd>Market quote pending</dd></div>
+                  <div><dt>Barcode / case pack</dt><dd>Factory confirmation</dd></div>
+                </dl>
+                <button className={`button ${isAdded ? "button-disabled" : "button-primary"}`} type="button" disabled={isAdded} onClick={() => addVariant(variant.id)}>{isAdded ? "Added to shortlist" : "Add to product shortlist"}</button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <div id="shortlist" className="shortlist">
+        <div className="shortlist-summary">
+          <div className="shortlist-title"><p className="eyebrow">YOUR PRODUCT SHORTLIST</p><span>{lines.length} {lines.length === 1 ? "specification" : "specifications"}</span></div>
+          {lines.length ? <div className="shortlist-lines">{lines.map((line) => {
+            const variant = getVariant(line.variantId);
+            return <article key={line.variantId}>
+              <div><strong>{variant.productType}</strong><h3>{variant.productName} · {variant.displaySize}</h3><small>{variant.planningSku}</small></div>
+              {buyerMode === "trade" && <div className="line-quantity"><input aria-label={`Quantity for ${variant.planningSku}`} type="number" min="1" max="99999" value={line.requestedQty} onChange={(event) => updateLine(line.variantId, { requestedQty: Math.max(1, Number(event.target.value) || 1) })} /><select aria-label={`Unit for ${variant.planningSku}`} value={line.unit} onChange={(event) => updateLine(line.variantId, { unit: event.target.value })}><option value="bags">bags</option><option value="cases">cases</option><option value="pallets">pallets</option></select></div>}
+              <button type="button" onClick={() => removeLine(line.variantId)} aria-label={`Remove ${variant.planningSku}`}>Remove</button>
+            </article>;
+          })}</div> : <div className="shortlist-empty"><strong>No products selected yet.</strong><p>Choose one or more pack specifications above to build a trade request or join retail early access.</p></div>}
+          <p className="shortlist-note">Planning SKUs are internal identifiers. GTIN, case pack, MOQ, price, inventory and delivery dates remain pending written confirmation.</p>
+        </div>
+
+        <form className="shortlist-form" onSubmit={submit}>
+          <div className="buyer-toggle" aria-label="Choose request type"><button className={buyerMode === "trade" ? "active" : ""} type="button" onClick={() => setBuyerMode("trade")}>Wholesale quote</button><button className={buyerMode === "retail" ? "active" : ""} type="button" onClick={() => setBuyerMode("retail")}>Retail early access</button></div>
+          {buyerMode === "trade" && <label>Company name<input name="company" autoComplete="organization" required /></label>}
+          <div className="form-grid">
+            <label>{buyerMode === "trade" ? "Work email" : "Email"}<input name="email" type="email" autoComplete="email" required /></label>
+            <label>Country / territory<input name="country" autoComplete="country-name" required /></label>
+            {buyerMode === "trade" && <><label>Partner type<select name="partnerType" required defaultValue=""><option value="" disabled>Select one</option>{partnerTypes.map((item) => <option key={item}>{item}</option>)}</select></label><label>Import status<select name="importStatus" required defaultValue=""><option value="" disabled>Select one</option><option>Active licence</option><option>In progress</option><option>Licensed importer partner</option><option>Not yet available</option></select></label></>}
+          </div>
+          {buyerMode === "trade" && <><label>Preferred trade basis<select name="incotermPreference" defaultValue=""><option value="">Discuss with TALVUMI</option><option>EXW — named place required</option><option>FOB — named port required</option><option>CIF — named destination port required</option></select></label><label>Launch plan / sample request<textarea name="notes" rows="4" placeholder="Share your target cities, channels, intended launch window and whether samples are required." /></label></>}
+          <label className="consent"><input name="consent" type="checkbox" required /><span>I agree that these details may be used to assess launch interest. This is not a purchase, reservation of inventory or price commitment.</span></label>
+          <button className="button button-primary" disabled={state.status === "sending" || !lines.length}>{state.status === "sending" ? "Submitting…" : buyerMode === "trade" ? "Request trade review" : "Join retail early access"}</button>
+          {state.message && <p className={`form-message ${state.status}`}>{state.message}</p>}
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function PackagingEngineering() {
+  const packs = [
+    {
+      size: "1.5 kg",
+      role: "Retail launch pack",
+      bag: "Flat-bottom or press-to-close stand-up pouch",
+      window: "RFQ window: 240–280 × 350–420 mm; gusset 80–110 mm",
+      material: "Start point: PET 12 / VMPET 12 / food-contact mLLDPE 80–100 μm",
+      features: "Tamper-evident top seal · easy tear · reclose zipper",
+      transit: "Test 4 bags / case and 6 bags / case",
+    },
+    {
+      size: "8 kg",
+      role: "Family / channel pack",
+      bag: "Flat-bottom or load-rated quad-seal bag",
+      window: "RFQ window: 380–450 × 650–760 mm; gusset 120–180 mm",
+      material: "Start point: PET 12 / PA 15 / VMPET 12 / mLLDPE 110–140 μm",
+      features: "Tamper-evident seal · reinforced side handle · heavy-duty reclose",
+      transit: "Start with one bag / corrugated shipper",
+    },
+    {
+      size: "10 kg",
+      role: "Large-format trade pack",
+      bag: "Heavy-duty quad-seal or flat-bottom bag",
+      window: "RFQ window: 420–500 × 700–850 mm; gusset 140–200 mm",
+      material: "Start point: PET 12 / PA 15 / VMPET 12 / mLLDPE 130–160 μm",
+      features: "Reinforced corners · side handle · load-rated zipper and top seal",
+      transit: "One bag / shipper unless channel testing approves bulk palletisation",
+    },
+  ];
+
+  return (
+    <section id="packaging" className="packaging section">
+      <div className="packaging-heading">
+        <p className="eyebrow">PACKAGING ENGINEERING · RFQ START POINT</p>
+        <h2>Designed to sell.<br /><em>Engineered to travel.</em></h2>
+        <p>These parameters are a disciplined starting brief for the factory and converter—not final production claims. Finished dimensions, laminate, barrier, seal window and case pack must be validated with the real kibble, filling line and target-market distribution test.</p>
+      </div>
+      <div className="packaging-grid">
+        {packs.map((pack, index) => <article key={pack.size}>
+          <div><span>0{index + 1}</span><strong>{pack.size}</strong></div>
+          <p>{pack.role}</p>
+          <h3>{pack.bag}</h3>
+          <dl>
+            <div><dt>Size brief</dt><dd>{pack.window}</dd></div>
+            <div><dt>Laminate brief</dt><dd>{pack.material}</dd></div>
+            <div><dt>Functional parts</dt><dd>{pack.features}</dd></div>
+            <div><dt>Transit pack</dt><dd>{pack.transit}</dd></div>
+          </dl>
+        </article>)}
+      </div>
+      <div className="packaging-gates">
+        <strong>Factory lock required</strong>
+        <p>Kibble bulk density, largest particle, surface oil, target shelf life, nitrogen use, current film data, filling-line limits, seal settings, coder footprint, drop history and final pallet route.</p>
+        <span>NO “RECYCLABLE”, BARRIER OR SHELF-LIFE CLAIM UNTIL TESTED</span>
+      </div>
+    </section>
   );
 }
 
@@ -100,8 +288,8 @@ export function App() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="TALVUMI home"><Monogram /><span>TALVUMI<small>PET NUTRITION</small></span></a>
-        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#standard">Our standard</a><a href="#trace">Trace</a><a href="#partners">Partners</a></nav>
-        <a className="button button-small" href="#apply">Become a distributor</a>
+        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#preorder">Pre-launch</a><a href="#packaging">Packaging</a><a href="#partners">Partners</a></nav>
+        <a className="button button-small" href="#preorder">Build a product shortlist</a>
       </header>
 
       <section id="top" className="hero">
@@ -166,10 +354,13 @@ export function App() {
         <div className="section-heading range-title"><p className="eyebrow">COMMERCIAL LAUNCH CANDIDATES</p><h2>One brand.<br /><em>A clearer range.</em></h2><p>Formats and specifications remain subject to final manufacturer documentation, market registration and written commercial confirmation.</p></div>
         <div className="product-grid">{products.map((product, index) => (
           <article className={`product-card ${product.tone}`} key={product.id}><div className="product-index">0{index + 1}</div><PackConcept product={product} />
-            <div className="product-copy"><p>{product.type}</p><h3>{product.name}</h3><span>{product.descriptor}</span><dl><div><dt>Pack plan</dt><dd>{product.sizes}</dd></div><div><dt>Status</dt><dd>{product.status}</dd></div></dl><a href="#apply">Trade enquiry <span>→</span></a></div>
+            <div className="product-copy"><p>{product.type}</p><h3>{product.name}</h3><span>{product.descriptor}</span><dl><div><dt>Pack plan</dt><dd>{product.variants.map((variant) => variant.displaySize).join(" · ")}</dd></div><div><dt>Status</dt><dd>{product.status}</dd></div></dl><a href="#preorder">Build a product shortlist <span>→</span></a></div>
           </article>
         ))}</div>
       </section>
+
+      <ProductShortlist />
+      <PackagingEngineering />
 
       <section id="trace" className="trace section">
         <div className="trace-mark"><Monogram /></div>
