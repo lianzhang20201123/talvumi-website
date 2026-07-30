@@ -108,6 +108,20 @@ const pages = [
     notice: "The legal operating entity, public business contact and market-specific responsible party will be published before commercial intake or sales are activated.",
   },
   {
+    route: "resources",
+    title: "Pet Food Buyer Resources | TALVUMI",
+    description: "Downloadable due-diligence and product-specification templates for pet food importers, distributors and retail partners evaluating TALVUMI.",
+    eyebrow: "BUYER RESOURCE ROOM",
+    heading: "Faster questions.<br><em>Cleaner decisions.</em>",
+    lede: "Use the public templates to structure an initial review. Product-specific evidence, confidential records and commercial terms are released only through the qualified partner process.",
+    sections: [
+      ["Buyer due diligence", "A structured checklist covering company, factory, product, quality, packaging, market and commercial evidence.", "/downloads/talvumi-buyer-due-diligence-checklist.csv", "Download buyer checklist"],
+      ["Product specification request", "A field-level template for aligning the formula, life stage, pack, coding, label, shelf-life and shipment specification.", "/downloads/talvumi-product-specification-request.csv", "Download specification template"],
+      ["Commercial readiness", "A launch-gate template for assigning ownership of registration, importer details, pricing, inventory, payment, shipping, support and returns.", "/downloads/talvumi-market-launch-gates.csv", "Download launch gates"],
+    ],
+    notice: "These templates are evaluation tools, not certificates, product specifications, quotations or legal advice. Blank fields must remain blank until the responsible party supplies controlled evidence.",
+  },
+  {
     route: "editorial-policy",
     title: "Editorial & Evidence Policy | TALVUMI",
     description: "How TALVUMI separates general market analysis from product claims, legal advice and unverified commercial information.",
@@ -126,7 +140,7 @@ const pages = [
 
 for (const page of pages) {
   const canonical = `https://talvumi.com/${page.route}/`;
-  const body = `<main><section class="hero"><div class="hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading}</h1><p class="lede">${page.lede}</p><a class="button" href="/#preorder">Start a qualified request</a></div><div class="hero-image" style="background-image:linear-gradient(90deg,rgba(16,16,20,.2),rgba(22,73,255,.25)),url('${hero}')"></div></section><section class="section ivory"><div class="grid">${page.sections.map(([title, text]) => `<article class="card"><h3>${title}</h3><p>${text}</p></article>`).join("")}</div><p class="notice">${page.notice}</p></section></main>`;
+  const body = `<main><section class="hero"><div class="hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading}</h1><p class="lede">${page.lede}</p><a class="button" href="/#preorder">Start a qualified request</a></div><div class="hero-image" style="background-image:linear-gradient(90deg,rgba(16,16,20,.2),rgba(22,73,255,.25)),url('${hero}')"></div></section><section class="section ivory"><div class="grid">${page.sections.map(([title, text, download, label]) => `<article class="card"><h3>${title}</h3><p>${text}</p>${download ? `<a class="button" href="${download}" download>${label}</a>` : ""}</article>`).join("")}</div><p class="notice">${page.notice}</p></section></main>`;
   const schema = { "@context": "https://schema.org", "@type": "WebPage", name: page.title, description: page.description, url: canonical, dateModified: generatedOn, publisher: { "@id": "https://talvumi.com/#organization" } };
   writeRoute(page.route, shell({ title: page.title, description: page.description, canonical, body, schema }));
 }

@@ -15,6 +15,7 @@ const staticRoutes = [
   "/products/kitten-ocean-fish/",
   "/distributors/",
   "/about/",
+  "/resources/",
   "/editorial-policy/",
   "/privacy/",
   "/terms/",
@@ -60,6 +61,7 @@ const styles = `
   .article-body aside{align-self:start;position:sticky;top:30px;padding-top:10px;border-top:3px solid var(--cobalt);font-size:11px;font-weight:850;line-height:1.7;letter-spacing:.1em;text-transform:uppercase}
   .article-body section{padding-bottom:38px;margin-bottom:42px;border-bottom:1px solid rgba(17,17,17,.2)}.article-body h2{font-size:clamp(36px,4vw,62px);color:var(--aubergine)}
   .article-body p{font-size:18px;line-height:1.85;color:rgba(17,17,17,.78)}.cta{padding:60px;background:var(--cobalt);color:white}.cta h2{margin:0 0 24px}.cta a{display:inline-block;padding:16px 22px;color:var(--ink);background:var(--acid);font-size:11px;font-weight:900;letter-spacing:.12em;text-decoration:none;text-transform:uppercase}
+  .sources{padding:28px;background:#fff;border:1px solid rgba(17,17,17,.18)}.sources h2{margin-top:0;font-size:34px}.sources ul{padding-left:20px}.sources li{margin:12px 0;line-height:1.5}.sources a{color:var(--cobalt);font-weight:800}
   footer{padding:45px 5vw;color:rgba(243,232,210,.52);background:#050505;font-size:11px;line-height:1.7}
   @media(max-width:850px){.articles{grid-template-columns:1fr}.card{min-height:330px}.article-body{grid-template-columns:1fr}.article-body aside{position:static}.topbar nav{display:none}.cta{padding:35px 24px}}
 `;
@@ -151,6 +153,7 @@ for (const article of sortedInsights) {
       <article class="article-body">
         <aside>For importers, distributors and pet retail operators evaluating a market launch.</aside>
         <div>${article.sections.map((section) => `<section><h2>${escapeHtml(section.heading)}</h2>${section.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</section>`).join("")}
+          ${article.sources?.length ? `<section class="sources"><h2>Reviewed sources</h2><ul>${article.sources.map((source) => `<li><a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${escapeHtml(source.name)}</a></li>`).join("")}</ul></section>` : ""}
           <div class="cta"><h2>Build TALVUMI in your market.</h2><a href="/#apply">Apply to become a distributor →</a></div>
         </div>
       </article>
@@ -189,7 +192,7 @@ writeFileSync(
   path.join(insightsRoot, "index.html"),
   pageShell({
     title: "Pet Food Distributor & Market Insights | TALVUMI",
-    description: "Daily commercial insights for pet food importers, distributors, retail chains and ecommerce partners.",
+    description: "Evidence-reviewed commercial insights for pet food importers, distributors, retail chains and ecommerce partners.",
     canonical: indexCanonical,
     body: indexBody,
     schema: indexSchema

@@ -3,6 +3,114 @@ import { useState, useMemo, useEffect } from "react";
 import { renderToString } from "react-dom/server";
 const insights = [
   {
+    slug: "pet-food-video-commerce-playbook",
+    date: "2026-07-30",
+    updated: "2026-07-30",
+    category: "Content Commerce",
+    title: "A Pet Food Video Commerce Playbook for Distributor Launches",
+    excerpt: "How pet food brands can connect creator content, real product demonstrations and qualified distributor demand without turning early-stage concepts into unsupported claims.",
+    keywords: ["pet food marketing", "pet food TikTok", "pet food creators", "pet food distributor launch"],
+    sections: [
+      {
+        heading: "Show the product before explaining the proposition",
+        paragraphs: [
+          "Short-form pet content competes in an action-first feed. The opening should show a visible product moment: a pack entering frame, food texture, preparation, a pet approaching the bowl or a clear owner problem. Brand explanation can follow after the viewer understands what is happening.",
+          "For a pre-launch brand, the visual proof must stay inside the evidence boundary. Real product, real pack size, real feeding footage and approved manufacturing scenes are useful; invented nutrition outcomes, veterinary implications and unsupported superlatives are not."
+        ]
+      },
+      {
+        heading: "Give each participant one clear role",
+        paragraphs: [
+          "Founder-led videos can explain why the range exists. Pet-owner creators can demonstrate routine and palatability. Qualified experts can discuss general selection principles within their professional scope. The pet supplies the reaction, not the medical claim.",
+          "A repeatable series is easier to test than unrelated one-off posts. Useful series include bowl close-ups, pack-to-bowl routines, distributor questions, factory-document explainers and side-by-side pack-size use cases."
+        ]
+      },
+      {
+        heading: "Connect attention to one measurable next step",
+        paragraphs: [
+          "A consumer-facing post should use one action such as joining a launch notification. A trade-facing post should direct qualified importers or distributors to a structured application or RFQ. Mixing wholesale, retail and creator recruitment in the same call to action weakens measurement.",
+          "Organic performance can identify hooks and creative treatments worth supporting with paid distribution. Views alone are insufficient; track qualified visits, completed applications, requested markets, sample progression and eventually repeat orders."
+        ]
+      }
+    ],
+    sources: [
+      { name: "TikTok for Business — Finn case study", url: "https://ads.tiktok.com/business/en/inspiration/finn-tiktok-shop-case-study" },
+      { name: "TikTok for Business — Pet Republic case study", url: "https://ads.tiktok.com/business/en-GB/inspiration/pet-republic-tiktok-success-story" }
+    ]
+  },
+  {
+    slug: "complete-and-balanced-pet-food-label-questions",
+    date: "2026-07-30",
+    updated: "2026-07-30",
+    category: "Label Readiness",
+    title: "Complete and Balanced Pet Food: Label Questions Buyers Should Ask",
+    excerpt: "A buyer-oriented framework for separating a complete-and-balanced statement from evidence, life-stage scope and destination-market label approval.",
+    keywords: ["complete and balanced pet food", "pet food label", "pet food nutrition claim", "pet food importer"],
+    sections: [
+      {
+        heading: "Treat the statement as a controlled claim",
+        paragraphs: [
+          "A complete-and-balanced statement is not decorative front-of-pack language. Buyers should identify the nutritional basis, the exact life stage, the formula version and the evidence held for the product being supplied.",
+          "The acceptable wording and supporting route depend on the destination market. A claim used in one jurisdiction should not be copied into another label without local review."
+        ]
+      },
+      {
+        heading: "Match evidence to the commercial specification",
+        paragraphs: [
+          "The formula identifier, ingredient statement, guaranteed analysis, feeding directions and nutritional adequacy basis should refer to the same approved product version. A sample bag, sales deck or similar-looking domestic product is not a substitute for the controlled specification.",
+          "When a formula or supplier changes, the importer and brand owner need a defined change-control process so the label, registration file and commercial product remain aligned."
+        ]
+      },
+      {
+        heading: "Keep open questions visible before purchase",
+        paragraphs: [
+          "A responsible pre-launch product page can show that nutrition evidence or label wording is pending instead of filling the gap with an assumption. This protects the buyer and makes the remaining approval work measurable.",
+          "TALVUMI will publish a complete-and-balanced statement only after product-specific evidence and destination-market wording have been reviewed in writing."
+        ]
+      }
+    ],
+    sources: [
+      { name: "U.S. FDA — Complete and Balanced Pet Food", url: "https://www.fda.gov/animal-veterinary/animal-health-literacy/complete-and-balanced-pet-food" },
+      { name: "WSAVA — Selecting a Pet Food for Your Pet", url: "https://wsava.org/wp-content/uploads/2021/04/Selecting-a-pet-food-for-your-pet-updated-2021_WSAVA-Global-Nutrition-Toolkit.pdf" }
+    ]
+  },
+  {
+    slug: "pet-food-buyer-data-room-checklist",
+    date: "2026-07-30",
+    updated: "2026-07-30",
+    category: "Buyer Due Diligence",
+    title: "What Belongs in a Pet Food Buyer Data Room?",
+    excerpt: "A practical structure for organising product, factory, packaging, quality and commercial records before a distributor evaluates a first order.",
+    keywords: ["pet food buyer data room", "pet food factory documents", "pet food distributor due diligence", "pet food quality documents"],
+    sections: [
+      {
+        heading: "Separate permanent records from batch records",
+        paragraphs: [
+          "Company registrations, facility information, quality-system documents and process descriptions change on a different cycle from production records. Batch codes, certificates of analysis, release records and shipment documents belong to the specific commercial lot.",
+          "A buyer data room should make that distinction obvious so an importer can see what describes the manufacturing system and what proves the status of the goods being shipped."
+        ]
+      },
+      {
+        heading: "Use stable names, owners and versions",
+        paragraphs: [
+          "Each controlled document should show the product or facility it covers, the issuer, version or issue date and review status. Files named final-final-new create unnecessary risk when a label, formula and quotation must agree.",
+          "A simple index can map every claim and specification field to its evidence owner. Missing information should remain marked as pending rather than being copied from another SKU."
+        ]
+      },
+      {
+        heading: "Release information in qualification stages",
+        paragraphs: [
+          "Public pages can explain the evidence framework. Qualified prospects can receive a commercial summary and controlled product checklist. Confidential factory, formula and contract documents should be shared only under the agreed access process.",
+          "The objective is not to publish every factory record. It is to help a serious buyer reach a documented decision without exposing sensitive or unrelated information."
+        ]
+      }
+    ],
+    sources: [
+      { name: "WSAVA — Selecting a Pet Food for Your Pet", url: "https://wsava.org/wp-content/uploads/2021/04/Selecting-a-pet-food-for-your-pet-updated-2021_WSAVA-Global-Nutrition-Toolkit.pdf" },
+      { name: "Open Farm — Product Transparency", url: "https://openfarmpet.com/pages/transparency" }
+    ]
+  },
+  {
     slug: "pet-food-distributor-evaluation-checklist",
     date: "2026-07-30",
     updated: "2026-07-30",
@@ -526,8 +634,19 @@ function PackagingEngineering() {
         /* @__PURE__ */ jsx("br", {}),
         /* @__PURE__ */ jsx("em", { children: "Engineered to travel." })
       ] }),
-      /* @__PURE__ */ jsx("p", { children: "These parameters are a disciplined starting brief for the factory and converter—not final production claims. Finished dimensions, laminate, barrier, seal window and case pack must be validated with the real kibble, filling line and target-market distribution test." })
+      /* @__PURE__ */ jsx("p", { children: "The selected C route combines high-impact colour and oversized type with an angular visible-food window. Window size, film structure, light exposure, barrier loss, seal performance and transit safety must be validated with the real product before artwork lock." })
     ] }),
+    /* @__PURE__ */ jsx("div", { className: "packaging-visuals", "aria-label": "TALVUMI front pack design system concepts", children: [
+      ["Adult cat / ocean fish", "/assets/packaging/talvumi-adult-cat-ocean-fish-pack-concept.png"],
+      ["Adult dog / beef", "/assets/packaging/talvumi-adult-dog-beef-pack-concept.png"],
+      ["Kitten / ocean fish", "/assets/packaging/talvumi-kitten-ocean-fish-pack-concept.png"]
+    ].map(([label, image]) => /* @__PURE__ */ jsxs("figure", { children: [
+      /* @__PURE__ */ jsx("img", { src: image, width: "1400", height: "1800", alt: `TALVUMI ${label} 1.5 kg front-pack design system concept`, loading: "lazy", decoding: "async" }),
+      /* @__PURE__ */ jsxs("figcaption", { children: [
+        /* @__PURE__ */ jsx("strong", { children: label }),
+        /* @__PURE__ */ jsx("span", { children: "C route · visible-food window · not final label" })
+      ] })
+    ] }, label)) }),
     /* @__PURE__ */ jsx("div", { className: "packaging-grid", children: packs.map((pack, index) => /* @__PURE__ */ jsxs("article", { children: [
       /* @__PURE__ */ jsxs("div", { children: [
         /* @__PURE__ */ jsxs("span", { children: [
@@ -694,7 +813,8 @@ function App() {
         /* @__PURE__ */ jsx("a", { href: "#range", children: "Range" }),
         /* @__PURE__ */ jsx("a", { href: "#preorder", children: "Pre-launch" }),
         /* @__PURE__ */ jsx("a", { href: "#packaging", children: "Packaging" }),
-        /* @__PURE__ */ jsx("a", { href: "#partners", children: "Partners" })
+        /* @__PURE__ */ jsx("a", { href: "#partners", children: "Partners" }),
+        /* @__PURE__ */ jsx("a", { href: "/resources/", children: "Resources" })
       ] }),
       /* @__PURE__ */ jsx("a", { className: "button button-small", href: "#preorder", children: "Build a product shortlist" })
     ] }),
@@ -999,6 +1119,7 @@ function App() {
       /* @__PURE__ */ jsxs("div", { className: "footer-links", children: [
         /* @__PURE__ */ jsx("a", { href: "/about/", children: "About" }),
         /* @__PURE__ */ jsx("a", { href: "/distributors/", children: "Distributors" }),
+        /* @__PURE__ */ jsx("a", { href: "/resources/", children: "Buyer resources" }),
         /* @__PURE__ */ jsx("a", { href: "/insights/", children: "Insights" }),
         /* @__PURE__ */ jsx("a", { href: "/editorial-policy/", children: "Editorial policy" }),
         /* @__PURE__ */ jsx("a", { href: "/privacy/", children: "Privacy" }),

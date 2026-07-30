@@ -231,7 +231,17 @@ function PackagingEngineering() {
       <div className="packaging-heading">
         <p className="eyebrow">PACKAGING ENGINEERING · RFQ START POINT</p>
         <h2>Designed to sell.<br /><em>Engineered to travel.</em></h2>
-        <p>These parameters are a disciplined starting brief for the factory and converter—not final production claims. Finished dimensions, laminate, barrier, seal window and case pack must be validated with the real kibble, filling line and target-market distribution test.</p>
+        <p>The selected C route combines high-impact colour and oversized type with an angular visible-food window. Window size, film structure, light exposure, barrier loss, seal performance and transit safety must be validated with the real product before artwork lock.</p>
+      </div>
+      <div className="packaging-visuals" aria-label="TALVUMI front pack design system concepts">
+        {[
+          ["Adult cat / ocean fish", "/assets/packaging/talvumi-adult-cat-ocean-fish-pack-concept.png"],
+          ["Adult dog / beef", "/assets/packaging/talvumi-adult-dog-beef-pack-concept.png"],
+          ["Kitten / ocean fish", "/assets/packaging/talvumi-kitten-ocean-fish-pack-concept.png"],
+        ].map(([label, image]) => <figure key={label}>
+          <img src={image} width="1400" height="1800" alt={`TALVUMI ${label} 1.5 kg front-pack design system concept`} loading="lazy" decoding="async" />
+          <figcaption><strong>{label}</strong><span>C route · visible-food window · not final label</span></figcaption>
+        </figure>)}
       </div>
       <div className="packaging-grid">
         {packs.map((pack, index) => <article key={pack.size}>
@@ -319,7 +329,7 @@ export function App() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="TALVUMI home"><Monogram /><span>TALVUMI<small>PET NUTRITION</small></span></a>
-        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#preorder">Pre-launch</a><a href="#packaging">Packaging</a><a href="#partners">Partners</a></nav>
+        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#preorder">Pre-launch</a><a href="#packaging">Packaging</a><a href="#partners">Partners</a><a href="/resources/">Resources</a></nav>
         <a className="button button-small" href="#preorder">Build a product shortlist</a>
       </header>
 
@@ -427,7 +437,7 @@ export function App() {
 
       <section className="retail section"><div><p className="eyebrow">RETAIL AVAILABILITY</p><h2>Retail opens market by market.</h2></div><p>Buy Now will appear only where a product is legally registered, locally stocked and supported by approved pricing, payment, delivery, returns and customer service.</p><button className="button button-disabled" disabled>Retail launch pending</button></section>
 
-      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="/about/">About</a><a href="/distributors/">Distributors</a><a href="/insights/">Insights</a><a href="/editorial-policy/">Editorial policy</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
+      <footer><div className="footer-brand"><Monogram /><strong>TALVUMI</strong></div><p>Verified premium nutrition—clear for pet parents, built for partners.</p><div className="footer-links"><a href="/about/">About</a><a href="/distributors/">Distributors</a><a href="/resources/">Buyer resources</a><a href="/insights/">Insights</a><a href="/editorial-policy/">Editorial policy</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><small>© {year} TALVUMI. Product availability, formulation, packaging and claims may vary by market. Distributor appointments and commercial terms require written agreement.</small></footer>
     </main>
   );
 }

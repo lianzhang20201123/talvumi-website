@@ -22,8 +22,10 @@ test("generated HTML has valid JSON-LD, one canonical and real social images", a
     "index.html",
     "products/adult-cat-ocean-fish/index.html",
     "distributors/index.html",
+    "resources/index.html",
     "privacy/index.html",
     "insights/pet-food-distributor-evaluation-checklist/index.html",
+    "insights/complete-and-balanced-pet-food-label-questions/index.html",
   ];
   for (const relative of samples) {
     const html = await readFile(path.join(client, relative), "utf8");
@@ -35,4 +37,7 @@ test("generated HTML has valid JSON-LD, one canonical and real social images", a
     }
   }
   await access(path.join(client, "assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp"));
+  await access(path.join(client, "downloads/talvumi-buyer-due-diligence-checklist.csv"));
+  await access(path.join(client, "downloads/talvumi-product-specification-request.csv"));
+  await access(path.join(client, "downloads/talvumi-market-launch-gates.csv"));
 });

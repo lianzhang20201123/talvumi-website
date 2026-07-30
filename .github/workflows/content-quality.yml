@@ -1,0 +1,29 @@
+name: Content quality
+
+on:
+  schedule:
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "content/**"
+      - "scripts/generate-insights.mjs"
+      - "scripts/check-content-freshness.mjs"
+      - ".github/workflows/content-quality.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run content:check
+      - run: npm run build
+      - run: npm run test:seo

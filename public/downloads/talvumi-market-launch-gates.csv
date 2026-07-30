@@ -1,0 +1,13 @@
+Gate,Decision owner,Required evidence,Status,Due date,Approved by,Notes
+Legal operating entity,Brand owner,Registration and public business contact,Blocked,,,
+Importer of record,Distributor,Valid destination-market importer arrangement,Pending,,,
+Product registration,Importer and regulatory reviewer,Written approval or confirmed lawful route,Pending,,,
+Final commercial specification,Manufacturer and brand owner,Signed formula and pack specification,Pending,,,
+Label approval,Regulatory reviewer and brand owner,Destination-market artwork approval,Pending,,,
+Quality release,Manufacturer,Approved release plan and batch evidence,Pending,,,
+Price approval,Brand owner,Approved landed-cost and margin model,Pending,,,
+Inventory allocation,Manufacturer and brand owner,Confirmed production slot and sellable quantity,Pending,,,
+Payment,Brand owner,Merchant and settlement process,Blocked,,,
+Shipping,Brand owner and logistics provider,Serviceable destinations and cost rules,Pending,,,
+Returns and complaints,Brand owner and distributor,Published process and responsible contact,Pending,,,
+Customer support,Brand owner,Working business email and response ownership,Blocked,,,

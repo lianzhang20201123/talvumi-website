@@ -265,6 +265,12 @@ h1 em, h2 em { color: var(--coral); font-style: normal; }
 .packaging-heading .eyebrow { grid-column:1 / -1; color:var(--acid); }
 .packaging-heading h2 { margin:0; }
 .packaging-heading > p:last-child { max-width:650px; color:rgba(243,232,210,.72); line-height:1.7; }
+.packaging-visuals { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:62px; }
+.packaging-visuals figure { margin:0; background:#0b0b0d; border:1px solid rgba(243,232,210,.34); overflow:hidden; }
+.packaging-visuals img { display:block; width:100%; height:auto; aspect-ratio:7/9; object-fit:cover; }
+.packaging-visuals figcaption { display:flex; justify-content:space-between; gap:18px; align-items:start; padding:16px 18px 18px; border-top:1px solid rgba(243,232,210,.24); }
+.packaging-visuals strong { font-size:13px; text-transform:uppercase; }
+.packaging-visuals span { max-width:150px; color:var(--cyan); font-size:8px; font-weight:900; letter-spacing:.1em; text-align:right; text-transform:uppercase; }
 .packaging-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(243,232,210,.22); border:2px solid var(--ivory); }
 .packaging-grid article { min-width:0; padding:30px; background:var(--cobalt); }
 .packaging-grid article > div:first-child { display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid rgba(243,232,210,.38); }
@@ -391,6 +397,7 @@ footer small { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var
   .food-story-media img { min-height:560px; }
   .product-grid { grid-template-columns: 1fr 1fr; }
   .commerce-grid, .packaging-grid { grid-template-columns:1fr; }
+  .packaging-visuals { grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
   .readiness-heading { grid-template-columns:1fr; gap:26px; }
   .commerce-card { display:grid; grid-template-columns:.9fr 1.1fr; }
   .commerce-image { height:auto; min-height:360px; }
@@ -443,6 +450,8 @@ footer small { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var
   .readiness-grid article:last-child { border-bottom:0; }
   .readiness-actions { align-items:flex-start; flex-direction:column; }
   .packaging-grid article { padding:22px; }
+  .packaging-visuals { grid-template-columns:1fr; }
+  .packaging-visuals figcaption { align-items:center; }
   .packaging-grid h3 { min-height:auto; }
   .insights-heading { grid-template-columns:1fr; gap:20px; }
   .insights-heading .eyebrow, .insights-heading .text-link { grid-column:1; }

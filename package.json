@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "test:commerce": "node --test tests/commerce-api.test.mjs",
-    "test:seo": "node --test tests/seo-assets.test.mjs"
+    "test:seo": "node --test tests/seo-assets.test.mjs",
+    "content:check": "node scripts/check-content-freshness.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "5.0.4",

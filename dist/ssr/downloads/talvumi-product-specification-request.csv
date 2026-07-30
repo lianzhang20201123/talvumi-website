@@ -1,0 +1,23 @@
+Field group,Field,Adult cat ocean fish,Adult dog beef,Kitten ocean fish,Source document,Version,Approval status
+Identity,Planning SKU,TVM-CA-AOF-1500 / TVM-CA-AOF-10000,TVM-DO-BEF-1500 / TVM-DO-BEF-10000,TVM-KI-AOF-1500 / TVM-KI-AOF-8000,Internal planning master,2026-07-30,Planning only
+Identity,Legal product name,,,,,,Pending
+Identity,Formula identifier,,,,,,Pending
+Nutrition,Life stage,,,,,,Pending
+Nutrition,Ingredient statement,,,,,,Pending
+Nutrition,Additives statement,,,,,,Pending
+Nutrition,Guaranteed analysis,,,,,,Pending
+Nutrition,Nutritional adequacy basis,,,,,,Pending
+Use,Feeding directions,,,,,,Pending
+Use,Storage instructions,,,,,,Pending
+Pack,Net content,,,,,,Pending
+Pack,Finished bag dimensions,,,,,,Pending
+Pack,Laminate construction,,,,,,Pending
+Pack,Closure and seal specification,,,,,,Pending
+Coding,Batch code format,,,,,,Pending
+Coding,Production and expiry date format,,,,,,Pending
+Commercial,GTIN / EAN / UPC,,,,,,Pending
+Commercial,Case pack,,,,,,Pending
+Commercial,MOQ,,,,,,Pending
+Commercial,Production lead time,,,,,,Pending
+Quality,Shelf-life basis,,,,,,Pending
+Quality,Release tests and limits,,,,,,Pending
