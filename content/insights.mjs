@@ -1,4 +1,6 @@
-export const insights = [
+import { scheduledInsights } from "./scheduled-insights.mjs";
+
+export const baseInsights = [
   {
     slug: "pet-food-video-commerce-playbook",
     date: "2026-07-30",
@@ -211,3 +213,8 @@ export const insights = [
     ]
   }
 ];
+
+const asOf = process.env.CONTENT_AS_OF || new Date().toISOString().slice(0, 10);
+export const insights = [...baseInsights, ...scheduledInsights]
+  .filter((article) => article.date <= asOf)
+  .sort((a, b) => b.date.localeCompare(a.date));

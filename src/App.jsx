@@ -233,13 +233,15 @@ function PackagingEngineering() {
         <h2>Designed to sell.<br /><em>Engineered to travel.</em></h2>
         <p>The selected C route combines high-impact colour and oversized type with an angular visible-food window. Window size, film structure, light exposure, barrier loss, seal performance and transit safety must be validated with the real product before artwork lock.</p>
       </div>
-      <div className="packaging-visuals" aria-label="TALVUMI front pack design system concepts">
+      <div className="packaging-visuals" aria-label="TALVUMI front, back and side pack design system concepts">
         {[
           ["Adult cat / ocean fish", "/assets/packaging/talvumi-adult-cat-ocean-fish-pack-concept.png"],
           ["Adult dog / beef", "/assets/packaging/talvumi-adult-dog-beef-pack-concept.png"],
           ["Kitten / ocean fish", "/assets/packaging/talvumi-kitten-ocean-fish-pack-concept.png"],
+          ["Back panel information master", "/assets/packaging/talvumi-c-route-back-panel-master.png"],
+          ["Left and right side-panel master", "/assets/packaging/talvumi-c-route-side-panels-master.png"],
         ].map(([label, image]) => <figure key={label}>
-          <img src={image} width="1400" height="1800" alt={`TALVUMI ${label} 1.5 kg front-pack design system concept`} loading="lazy" decoding="async" />
+          <img src={image} width="1400" height="1800" alt={`TALVUMI ${label} packaging design system concept`} loading="lazy" decoding="async" />
           <figcaption><strong>{label}</strong><span>C route · visible-food window · not final label</span></figcaption>
         </figure>)}
       </div>

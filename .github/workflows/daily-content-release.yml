@@ -1,0 +1,54 @@
+name: Daily SEO and GEO release
+
+on:
+  schedule:
+    - cron: "12 2 * * *"
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Optional release date in YYYY-MM-DD (UTC)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-content-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Select evidence-gated release date
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.as_of }}" ]; then
+            echo "CONTENT_AS_OF=${{ inputs.as_of }}" >> "$GITHUB_ENV"
+          else
+            echo "CONTENT_AS_OF=$(date -u +%F)" >> "$GITHUB_ENV"
+          fi
+      - run: npm run content:calendar
+      - run: npm run build
+      - run: npm run test:seo
+      - name: Commit newly released static content
+        shell: bash
+        run: |
+          git add public/insights public/sitemap.xml public/feed.xml public/llms.txt public/llms-full.txt
+          if git diff --cached --quiet; then
+            echo "No scheduled article is due today."
+            exit 0
+          fi
+          git config user.name "talvumi-content-bot"
+          git config user.email "content-bot@users.noreply.github.com"
+          git commit -m "Release TALVUMI insight ${CONTENT_AS_OF} [skip ci]"
+          git push

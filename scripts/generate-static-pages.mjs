@@ -115,9 +115,13 @@ const pages = [
     heading: "Faster questions.<br><em>Cleaner decisions.</em>",
     lede: "Use the public templates to structure an initial review. Product-specific evidence, confidential records and commercial terms are released only through the qualified partner process.",
     sections: [
+      ["International distributor catalog", "The pre-launch English partner catalog: brand proposition, opening range, evidence gates, route to market and application process.", "/downloads/TALVUMI-International-Distributor-Catalog-Prelaunch-V1.0.pdf", "Download distributor catalog"],
+      ["Distributor policy framework", "The formal operating framework for appointment, market control, quality, ecommerce, creators, reporting and performance protection.", "/downloads/TALVUMI-Distributor-Policy-V1.0.pdf", "Download distributor policy"],
       ["Buyer due diligence", "A structured checklist covering company, factory, product, quality, packaging, market and commercial evidence.", "/downloads/talvumi-buyer-due-diligence-checklist.csv", "Download buyer checklist"],
       ["Product specification request", "A field-level template for aligning the formula, life stage, pack, coding, label, shelf-life and shipment specification.", "/downloads/talvumi-product-specification-request.csv", "Download specification template"],
       ["Commercial readiness", "A launch-gate template for assigning ownership of registration, importer details, pricing, inventory, payment, shipping, support and returns.", "/downloads/talvumi-market-launch-gates.csv", "Download launch gates"],
+      ["30-video launch script bank", "Thirty structured short-form video scripts with hook, shot plan, voiceover, proof gate, CTA and production status.", "/downloads/talvumi-30-short-video-scripts.csv", "Download script bank"],
+      ["Public creator research worksheet", "A public-source candidate and market-observation list for manual verification; inclusion is not an endorsement or confirmed partnership.", "/downloads/talvumi-public-creator-candidates.csv", "Download creator worksheet"],
     ],
     notice: "These templates are evaluation tools, not certificates, product specifications, quotations or legal advice. Blank fields must remain blank until the responsible party supplies controlled evidence.",
   },
