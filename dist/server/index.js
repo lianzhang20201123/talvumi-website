@@ -1,5 +1,5 @@
-import { getVariant } from "../content/catalog.mjs";
-import { clean, isHoneypotTriggered, normalizePartner, normalizeQuote, requestContext, validateEmail } from "../lib/intake-validation.mjs";
+import { getVariant } from "./content/catalog.mjs";
+import { clean, isHoneypotTriggered, normalizePartner, normalizeQuote, requestContext, validateEmail } from "./lib/intake-validation.mjs";
 
 async function forward(env, key, payload, tokenKey) {
   const webhookUrl = env[key];

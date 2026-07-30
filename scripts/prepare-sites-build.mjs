@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { copyFileSync, cpSync, existsSync, mkdirSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,9 +15,17 @@ for (const file of [index, worker, hosting]) {
 
 mkdirSync(path.join(dist, "server"), { recursive: true });
 mkdirSync(path.join(dist, ".openai"), { recursive: true });
-copyFileSync(worker, path.join(dist, "server", "index.js"));
+const serverEntry = path.join(dist, "server", "index.js");
+copyFileSync(worker, serverEntry);
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
-cpSync(path.join(root, "lib"), path.join(dist, "lib"), { recursive: true });
-cpSync(path.join(root, "content"), path.join(dist, "content"), { recursive: true });
+cpSync(path.join(root, "lib"), path.join(dist, "server", "lib"), { recursive: true });
+cpSync(path.join(root, "content"), path.join(dist, "server", "content"), { recursive: true });
+writeFileSync(
+  serverEntry,
+  readFileSync(serverEntry, "utf8")
+    .replaceAll('"../content/', '"./content/')
+    .replaceAll('"../lib/', '"./lib/'),
+  "utf8",
+);
 
 console.log("Prepared Sites build with worker, shared validation and content data.");
