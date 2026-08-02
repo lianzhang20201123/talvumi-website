@@ -20,13 +20,13 @@ The controlling requirement depends on the destination market and the exact prod
 
 Match every number to the signed specification and current laboratory or release evidence.
 
-The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product.
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
 
 ### How TALVUMI applies the principle
 
 Do not compare products with very different moisture levels without considering the basis.
 
-TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment.
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
 
 ## How Should a Pet Food Ingredient List Be Ordered?
 
@@ -46,13 +46,13 @@ The controlling requirement depends on the destination market and the exact prod
 
 Request the controlled formula and approved ingredient names, not a list copied from a domestic bag.
 
-The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product.
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
 
 ### How TALVUMI applies the principle
 
 Version the ingredient panel whenever the commercial formula changes.
 
-TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment.
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
 
 ## What Is a Pet Food Statement of Identity?
 
@@ -72,13 +72,13 @@ The controlling requirement depends on the destination market and the exact prod
 
 Confirm the legal product name, species and intended use before artwork is released.
 
-The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product.
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
 
 ### How TALVUMI applies the principle
 
 Keep working product names separate from destination-market legal names.
 
-TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment.
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
 
 ## A Pet Food Video Commerce Playbook for Distributor Launches
 
@@ -92,7 +92,7 @@ TALVUMI’s launch candidates remain subject to factory documentation, destinati
 
 Short-form pet content competes in an action-first feed. The opening should show a visible product moment: a pack entering frame, food texture, preparation, a pet approaching the bowl or a clear owner problem. Brand explanation can follow after the viewer understands what is happening.
 
-For a pre-launch brand, the visual proof must stay inside the evidence boundary. Real product, real pack size, real feeding footage and approved manufacturing scenes are useful; invented nutrition outcomes, veterinary implications and unsupported superlatives are not.
+Strong pet-food content uses real product, real pack sizes, real feeding footage and authentic manufacturing scenes. Nutrition outcomes, veterinary implications and superlatives should be used only when the product evidence supports them.
 
 ### Give each participant one clear role
 
@@ -128,9 +128,9 @@ When a formula or supplier changes, the importer and brand owner need a defined 
 
 ### Keep open questions visible before purchase
 
-A responsible pre-launch product page can show that nutrition evidence or label wording is pending instead of filling the gap with an assumption. This protects the buyer and makes the remaining approval work measurable.
+A responsible product page separates the recipe story from market-specific nutrition and label requirements. This gives buyers a clearer basis for comparison.
 
-TALVUMI will publish a complete-and-balanced statement only after product-specific evidence and destination-market wording have been reviewed in writing.
+For TALVUMI products, nutritional adequacy wording is matched to the product specification and the requirements of the destination market.
 
 ## What Belongs in a Pet Food Buyer Data Room?
 

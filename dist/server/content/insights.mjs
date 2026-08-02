@@ -14,7 +14,7 @@ export const baseInsights = [
         heading: "Show the product before explaining the proposition",
         paragraphs: [
           "Short-form pet content competes in an action-first feed. The opening should show a visible product moment: a pack entering frame, food texture, preparation, a pet approaching the bowl or a clear owner problem. Brand explanation can follow after the viewer understands what is happening.",
-          "For a pre-launch brand, the visual proof must stay inside the evidence boundary. Real product, real pack size, real feeding footage and approved manufacturing scenes are useful; invented nutrition outcomes, veterinary implications and unsupported superlatives are not."
+          "Strong pet-food content uses real product, real pack sizes, real feeding footage and authentic manufacturing scenes. Nutrition outcomes, veterinary implications and superlatives should be used only when the product evidence supports them."
         ]
       },
       {
@@ -63,8 +63,8 @@ export const baseInsights = [
       {
         heading: "Keep open questions visible before purchase",
         paragraphs: [
-          "A responsible pre-launch product page can show that nutrition evidence or label wording is pending instead of filling the gap with an assumption. This protects the buyer and makes the remaining approval work measurable.",
-          "TALVUMI will publish a complete-and-balanced statement only after product-specific evidence and destination-market wording have been reviewed in writing."
+          "A responsible product page separates the recipe story from market-specific nutrition and label requirements. This gives buyers a clearer basis for comparison.",
+          "For TALVUMI products, nutritional adequacy wording is matched to the product specification and the requirements of the destination market."
         ]
       }
     ],

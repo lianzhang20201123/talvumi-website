@@ -61,14 +61,14 @@ export const scheduledInsights = topics.map(([date, slug, category, title, answe
       heading: "Buyer checklist",
       paragraphs: [
         buyerAction,
-        "The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product."
+        "The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product."
       ]
     },
     {
       heading: "How TALVUMI applies the principle",
       paragraphs: [
         talvumiAction,
-        "TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment."
+        "TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination."
       ]
     }
   ],
