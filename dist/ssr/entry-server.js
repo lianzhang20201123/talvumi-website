@@ -892,7 +892,8 @@ function App() {
         /* @__PURE__ */ jsx("a", { href: "#preorder", children: "Pre-launch" }),
         /* @__PURE__ */ jsx("a", { href: "#packaging", children: "Packaging" }),
         /* @__PURE__ */ jsx("a", { href: "#partners", children: "Partners" }),
-        /* @__PURE__ */ jsx("a", { href: "/resources/", children: "Resources" })
+        /* @__PURE__ */ jsx("a", { href: "/resources/", children: "Resources" }),
+        /* @__PURE__ */ jsx("a", { className: "language-link", href: "/zh/", lang: "zh-CN", children: "中文" })
       ] }),
       /* @__PURE__ */ jsx("a", { className: "button button-small", href: "#preorder", children: "Build a product shortlist" })
     ] }),

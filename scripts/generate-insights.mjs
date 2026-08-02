@@ -202,6 +202,7 @@ writeFileSync(
 
 const sitemapUrls = [
   { loc: "https://talvumi.com/", lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: "1.0" },
+  { loc: "https://talvumi.com/zh/", lastmod: sortedInsights[0]?.updated || "2026-08-02", priority: "0.9" },
   { loc: indexCanonical, lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: "0.9" },
   ...staticRoutes.map((route) => ({ loc: `https://talvumi.com${route}`, lastmod: sortedInsights[0]?.updated || "2026-07-30", priority: route.startsWith("/products/") ? "0.9" : "0.7" })),
   ...sortedInsights.map((article) => ({ loc: `https://talvumi.com/insights/${article.slug}/`, lastmod: article.updated, priority: "0.8" }))

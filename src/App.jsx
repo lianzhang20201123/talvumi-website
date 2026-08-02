@@ -331,7 +331,7 @@ export function App() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="TALVUMI home"><Monogram /><span>TALVUMI<small>PET NUTRITION</small></span></a>
-        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#preorder">Pre-launch</a><a href="#packaging">Packaging</a><a href="#partners">Partners</a><a href="/resources/">Resources</a></nav>
+        <nav aria-label="Primary navigation"><a href="#range">Range</a><a href="#preorder">Pre-launch</a><a href="#packaging">Packaging</a><a href="#partners">Partners</a><a href="/resources/">Resources</a><a className="language-link" href="/zh/" lang="zh-CN">中文</a></nav>
         <a className="button button-small" href="#preorder">Build a product shortlist</a>
       </header>
 

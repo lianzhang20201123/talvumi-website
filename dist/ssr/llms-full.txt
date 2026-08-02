@@ -2,6 +2,58 @@
 
 Official article index: https://talvumi.com/insights/
 
+## How Should a Pet Food Ingredient List Be Ordered?
+
+- URL: https://talvumi.com/insights/pet-food-ingredient-list-order/
+- Published: 2026-08-01
+- Updated: 2026-08-01
+- Category: Label Readiness
+- Summary: In the United States, ingredients are generally listed by common or usual name in descending order by weight. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+In the United States, ingredients are generally listed by common or usual name in descending order by weight.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Request the controlled formula and approved ingredient names, not a list copied from a domestic bag.
+
+The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product.
+
+### How TALVUMI applies the principle
+
+Version the ingredient panel whenever the commercial formula changes.
+
+TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment.
+
+## What Is a Pet Food Statement of Identity?
+
+- URL: https://talvumi.com/insights/pet-food-label-identity-statement/
+- Published: 2026-07-31
+- Updated: 2026-07-31
+- Category: Label Readiness
+- Summary: A statement of identity tells buyers what the food is and, where necessary, its intended use. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+A statement of identity tells buyers what the food is and, where necessary, its intended use.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Confirm the legal product name, species and intended use before artwork is released.
+
+The record should identify the SKU, market, owner, evidence source, version and approval status. Missing data should remain visibly pending rather than being inferred from another product.
+
+### How TALVUMI applies the principle
+
+Keep working product names separate from destination-market legal names.
+
+TALVUMI’s launch candidates remain subject to factory documentation, destination-market approval and signed commercial terms. Website content does not create a price, inventory, delivery or regulatory commitment.
+
 ## A Pet Food Video Commerce Playbook for Distributor Launches
 
 - URL: https://talvumi.com/insights/pet-food-video-commerce-playbook/
