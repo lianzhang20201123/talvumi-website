@@ -1,0 +1,56 @@
+import { useMemo, useState } from "react";
+import { catalog as products } from "../content/catalog.mjs";
+
+const partnerTypes = ["Importer", "National distributor", "Regional distributor", "Retail chain", "Specialist pet retailer", "Ecommerce operator"];
+const launchWindows = ["Within 3 months", "3–6 months", "6–12 months", "Exploring"];
+
+function PartnerForm() {
+  const [state, setState] = useState({ status: "idle", message: "" });
+  async function submit(event) {
+    event.preventDefault();
+    const payload = Object.fromEntries(new FormData(event.currentTarget).entries());
+    setState({ status: "sending", message: "Sending your introduction…" });
+    try {
+      const response = await fetch("/api/partner-applications", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "The form is temporarily unavailable.");
+      event.currentTarget.reset();
+      setState({ status: "success", message: `Thank you. Your reference is ${result.reference}.` });
+    } catch (error) {
+      setState({ status: "pending", message: `${error.message} Please email your introduction to our commercial team when direct contact details are published.` });
+    }
+  }
+  return <form className="public-form" onSubmit={submit}>
+    <div className="public-form-grid">
+      <label>Company<input name="company" autoComplete="organization" required /></label>
+      <label>Your name<input name="contactName" autoComplete="name" required /></label>
+      <label>Business email<input name="email" type="email" autoComplete="email" required /></label>
+      <label>Country / territory<input name="country" autoComplete="country-name" required /></label>
+      <label>Business type<select name="partnerType" defaultValue="" required><option value="" disabled>Choose one</option>{partnerTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
+      <label>Preferred launch timing<select name="launchWindow" defaultValue="" required><option value="" disabled>Choose one</option>{launchWindows.map((item) => <option key={item}>{item}</option>)}</select></label>
+    </div>
+    <label>Tell us about your market<textarea name="launchPlan" rows="4" placeholder="Your channels, cities, current pet food portfolio and the products you want to discuss." required /></label>
+    <label className="honeypot" aria-hidden="true">Leave blank<input name="companyFax" tabIndex="-1" autoComplete="off" /></label>
+    <label className="consent"><input name="consent" type="checkbox" required /><span>I agree that TALVUMI may use these business details to discuss a potential partnership under the <a href="/privacy/">privacy notice</a>.</span></label>
+    <button className="public-button public-button-dark" disabled={state.status === "sending"}>{state.status === "sending" ? "Sending…" : "Introduce your company"}</button>
+    {state.message && <p className={`form-message ${state.status}`} aria-live="polite">{state.message}</p>}
+  </form>;
+}
+
+export function AppPublic() {
+  const year = useMemo(() => new Date().getFullYear(), []);
+  return <main className="public-site">
+    <header className="public-header"><a className="public-brand" href="#top"><strong>TALVUMI</strong><small>PET NUTRITION</small></a><nav aria-label="Primary navigation"><a href="#range">Products</a><a href="#brand">Our difference</a><a href="#partners">Partners</a><a href="/insights/">Insights</a><a className="language-link" href="/zh/" lang="zh-CN">中文</a></nav><a className="public-button" href="#contact">Talk to us</a></header>
+    <section id="top" className="public-hero"><div className="public-hero-copy"><p className="public-kicker">CAT + DOG NUTRITION FOR MODERN PET RETAIL</p><h1>Good food.<br /><em>Impossible to miss.</em></h1><p>TALVUMI brings together quality pet nutrition, bold shelf presence and a wholesale-first model designed for ambitious importers and distributors.</p><div className="public-actions"><a className="public-button public-button-acid" href="#range">Discover the range</a><a href="#contact">Become a partner <span>→</span></a></div></div><div className="public-hero-image"><img src="/assets/brand/talvumi-cat-dog-pet-food-brand-hero.webp" width="1600" height="1067" alt="Cat and dog beside bowls of dry pet food" fetchPriority="high" /><span>CAT + DOG · DRY FOOD · FREEZE-DRIED PIECES</span></div></section>
+    <div className="public-strip">BOLD AT SHELF <i>●</i> CLEAR BY RANGE <i>●</i> BUILT WITH PARTNERS <i>●</i> READY TO TRAVEL</div>
+    <section id="brand" className="public-story public-section"><div><p className="public-kicker">WHY TALVUMI</p><h2>A pet food brand people can understand in seconds.</h2></div><div className="public-story-copy"><p className="public-lede">Pet parents want confidence. Retailers want a range that is easy to explain. Distributors want a brand with enough character to earn attention. TALVUMI is built for all three.</p><div className="public-pillars"><article><b>01</b><h3>Clear range</h3><p>Species, life stage and recipe are easy to recognise across every pack.</p></article><article><b>02</b><h3>Visible product</h3><p>Food texture and freeze-dried pieces become part of the shelf story.</p></article><article><b>03</b><h3>Distinctive identity</h3><p>Strong colour, oversized type and a consistent system create recall.</p></article></div></div></section>
+    <section id="range" className="public-range public-section"><div className="public-heading"><p className="public-kicker">OPENING COLLECTION</p><h2>Three focused products.<br /><em>One unmistakable family.</em></h2><p>Created to give partners a simple starting range across adult cat, adult dog and kitten nutrition.</p></div><div className="public-product-grid">{products.map((product, index) => <article key={product.id} className={`public-product ${product.tone}`}><div className="public-product-image"><img src={product.image} alt={`${product.lifeStage} ${product.species} pet food`} loading="lazy" style={{ objectPosition: product.imagePosition }} /><span>0{index + 1}</span></div><div><small>{product.type}</small><h3>{product.name}</h3><p>{product.descriptor}</p><strong>{product.variants.map((variant) => variant.displaySize).join(" · ")}</strong><a href="#contact">Discuss this product →</a></div></article>)}</div><p className="public-fineprint">Final recipe, pack format and market availability are confirmed with each appointed partner.</p></section>
+    <section className="public-food public-section"><div className="public-food-image"><img src="/assets/brand/talvumi-dry-pet-food-texture.webp" width="1400" height="933" alt="Bowls of dry cat and dog food with freeze-dried pieces" loading="lazy" /></div><div><p className="public-kicker">SHOW THE FOOD</p><h2>Let the product do the talking.</h2><p>Dry nutrition and freeze-dried pieces are part of the experience, not something hidden behind generic lifestyle claims. TALVUMI makes texture, recipe and feeding occasion easier to see and easier to sell.</p><a href="#contact">Request a product conversation →</a></div></section>
+    <section className="public-packaging public-section"><div className="public-heading"><p className="public-kicker">PACKAGING SYSTEM</p><h2>Designed to stop the scroll.<br /><em>Built to own the shelf.</em></h2><p>A consistent visual language creates one brand family while giving every recipe its own colour and personality.</p></div><div className="public-pack-grid">{[["Adult cat · Ocean fish","/assets/packaging/talvumi-adult-cat-ocean-fish-pack-concept.png"],["Adult dog · Beef","/assets/packaging/talvumi-adult-dog-beef-pack-concept.png"],["Kitten · Ocean fish","/assets/packaging/talvumi-kitten-ocean-fish-pack-concept.png"]].map(([label,src])=><figure key={label}><img src={src} alt={`TALVUMI ${label} packaging direction`} loading="lazy" /><figcaption>{label}</figcaption></figure>)}</div><p className="public-fineprint light">Packaging shown is the selected brand direction; final market labels are prepared for each approved product and destination.</p></section>
+    <section id="partners" className="public-partners public-section"><div><p className="public-kicker">WHOLESALE FIRST</p><h2>More than a product list.<br /><em>A brand to build.</em></h2><p>We are looking for importers, distributors and specialist retailers who want to create lasting demand in their market.</p><a className="public-button public-button-acid" href="#contact">Start the conversation</a></div><div className="public-partner-list"><article><span>01</span><h3>A focused opening range</h3><p>Start with a clear product family, then expand around real market demand.</p></article><article><span>02</span><h3>Launch-ready brand assets</h3><p>Packaging direction, product storytelling and campaign materials built to work together.</p></article><article><span>03</span><h3>Channel collaboration</h3><p>Work directly on assortment, launch timing, retail presentation and local content.</p></article><article><span>04</span><h3>Long-term market building</h3><p>Territory discussions are based on capability, commitment and an agreed growth plan.</p></article></div></section>
+    <section className="public-journey public-section"><p className="public-kicker">HOW IT STARTS</p><div>{[["01","Introduce","Tell us about your company and market."],["02","Explore","Review products, positioning and market fit."],["03","Sample","Evaluate the selected recipes and formats."],["04","Plan","Agree the range, route to market and launch."],["05","Build","Create demand together in your territory."]].map(([num,title,copy])=><article key={num}><span>{num}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></section>
+    <section id="contact" className="public-contact public-section"><div><p className="public-kicker">BRING TALVUMI TO YOUR MARKET</p><h2>Tell us what<br /><em>you can build.</em></h2><p>Share your market, channels and launch ambition. We will use that introduction to start a direct commercial conversation.</p></div><PartnerForm /></section>
+    <section className="public-faq public-section"><div><p className="public-kicker">QUICK ANSWERS</p><h2>Before we talk.</h2></div><div><details open><summary>Who should contact TALVUMI?</summary><p>Pet food importers, national or regional distributors, retail chains, specialist pet retailers and established ecommerce operators.</p></details><details><summary>Can we discuss territory rights?</summary><p>Yes. Territory is discussed after both sides understand the market plan, channel capability and commercial expectations.</p></details><details><summary>Can consumers buy online today?</summary><p>Retail availability will open market by market through appointed channels. The current website is focused on partner conversations.</p></details></div></section>
+    <footer className="public-footer"><div><strong>TALVUMI</strong><span>PET NUTRITION</span></div><p>Good food. Impossible to miss.</p><nav><a href="/about/">About</a><a href="/insights/">Insights</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/zh/">中文</a></nav><small>© {year} TALVUMI. Product details and availability vary by market.</small></footer>
+  </main>;
+}
