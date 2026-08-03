@@ -2,6 +2,32 @@
 
 Official article index: https://talvumi.com/insights/
 
+## Why Dry-Matter Basis Matters in Pet Food Comparison
+
+- URL: https://talvumi.com/insights/pet-food-dry-matter-comparison/
+- Published: 2026-08-03
+- Updated: 2026-08-03
+- Category: Pet Nutrition Literacy
+- Summary: As-fed percentages can mislead when products have different moisture contents; dry-matter conversion improves comparability. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+As-fed percentages can mislead when products have different moisture contents; dry-matter conversion improves comparability.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Record moisture and the calculation basis before drawing a nutrition comparison.
+
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
+
+### How TALVUMI applies the principle
+
+Use the result as one input, not a stand-alone quality verdict.
+
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
+
 ## How Buyers Should Review a Pet Food Guaranteed Analysis
 
 - URL: https://talvumi.com/insights/pet-food-guaranteed-analysis-buyer-check/
