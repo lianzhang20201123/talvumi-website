@@ -2,6 +2,32 @@
 
 Official article index: https://talvumi.com/insights/
 
+## Building a Pet Food Wholesale Price Waterfall
+
+- URL: https://talvumi.com/insights/pet-food-wholesale-price-waterfall/
+- Published: 2026-08-18
+- Updated: 2026-08-18
+- Category: Commercial Planning
+- Summary: A price waterfall starts with verified landed cost and then shows each channel margin, reserve and tax treatment. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+A price waterfall starts with verified landed cost and then shows each channel margin, reserve and tax treatment.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Keep factory cost, packaging, freight, duty and local handling as separate editable inputs.
+
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
+
+### How TALVUMI applies the principle
+
+Block external quotation when any critical input is missing.
+
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
+
 ## How to Tie Pet Food Exclusivity to Measurable Milestones
 
 - URL: https://talvumi.com/insights/pet-food-distributor-exclusivity-milestones/
