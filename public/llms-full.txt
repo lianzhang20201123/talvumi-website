@@ -2,6 +2,32 @@
 
 Official article index: https://talvumi.com/insights/
 
+## A Sample-Approval Protocol for Pet Food Buyers
+
+- URL: https://talvumi.com/insights/pet-food-sample-approval-protocol/
+- Published: 2026-08-20
+- Updated: 2026-08-20
+- Category: Quality Systems
+- Summary: A sample approval should identify the formula, batch, packaging status and purpose of the sample. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+A sample approval should identify the formula, batch, packaging status and purpose of the sample.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Record sensory observations, analytical documents and differences from final production.
+
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
+
+### How TALVUMI applies the principle
+
+State clearly when a sample uses concept packaging or non-commercial logistics.
+
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
+
 ## How to Review MOQ and Inventory Risk for Pet Food
 
 - URL: https://talvumi.com/insights/pet-food-moq-inventory-risk/
