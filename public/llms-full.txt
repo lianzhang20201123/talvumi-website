@@ -2,6 +2,32 @@
 
 Official article index: https://talvumi.com/insights/
 
+## How COAs Fit into Pet Food Batch Release
+
+- URL: https://talvumi.com/insights/pet-food-coa-batch-release/
+- Published: 2026-08-21
+- Updated: 2026-08-21
+- Category: Quality Systems
+- Summary: A certificate of analysis should be tied to the correct lot, specification and release decision. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+A certificate of analysis should be tied to the correct lot, specification and release decision.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Define which tests are routine, which are periodic and who reviews exceptions.
+
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
+
+### How TALVUMI applies the principle
+
+Do not treat a generic or historical COA as proof for an unrelated shipment.
+
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
+
 ## A Sample-Approval Protocol for Pet Food Buyers
 
 - URL: https://talvumi.com/insights/pet-food-sample-approval-protocol/
