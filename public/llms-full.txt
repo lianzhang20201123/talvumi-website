@@ -2,6 +2,32 @@
 
 Official article index: https://talvumi.com/insights/
 
+## Why Export Pet Food Needs a Retained-Sample Plan
+
+- URL: https://talvumi.com/insights/pet-food-retained-sample-plan/
+- Published: 2026-08-22
+- Updated: 2026-08-22
+- Category: Quality Systems
+- Summary: Retained samples help investigate quality questions when a shipment is already in market. This answer-first guide shows buyers what to verify before a commercial decision.
+
+### Direct answer
+
+Retained samples help investigate quality questions when a shipment is already in market.
+
+The controlling requirement depends on the destination market and the exact product. Buyers should use current local professional review before registration, label release or import.
+
+### Buyer checklist
+
+Specify sample quantity, storage conditions, retention period, access and chain of custody.
+
+The record should identify the SKU, market, owner, evidence source and version so buyers can compare the correct commercial product.
+
+### How TALVUMI applies the principle
+
+Link every retained sample to batch and distribution records.
+
+TALVUMI aligns ingredient information, product documents and market labelling with the commercial product supplied to each destination.
+
 ## How COAs Fit into Pet Food Batch Release
 
 - URL: https://talvumi.com/insights/pet-food-coa-batch-release/
